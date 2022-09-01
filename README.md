@@ -1,7 +1,11 @@
 # Making-Dos-Metasploit-Module-Vulnserver
 This is a walkthrough of making the DOS Metasploit module for Vulnserver a vulnerable chat server. 
-
-## Different types of Modules
+## Table of Contents 
+* [Introduction](#introduction)
+    * [Different types of Modules](#different-types-of-modules)
+## Introduction 
+Let us first look at the different kinds of modules there are and the uses of each one.
+### Different types of Modules
 There are three different types of modules.
 1. **Exploit Modules**
     * They Executes a sequence of commands to target a specific vulnerability found in a system or application. 
