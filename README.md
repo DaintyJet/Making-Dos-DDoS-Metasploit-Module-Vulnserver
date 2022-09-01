@@ -4,6 +4,8 @@ This is a walkthrough of making the DOS Metasploit module for Vulnserver a vulne
 * [Introduction](#introduction)
     * [Different types of Modules](#different-types-of-modules)
 ## Introduction 
+Metasploit modules are software written in Ruby that the Metasploit Framework uses to preform a specific task [*ref*](https://docs.rapid7.com/metasploit/modules #:~:text=A%20module%20is%20a%20piece%20of%20software%20that%20the%20Metasploit%20Framework%20uses%20to%20perform%20a%20task%2C%20such%20as%20exploiting%20or%20scanning%20a%20target.).
+
 Let us first look at the different kinds of modules there are and the uses of each one.
 ### Different types of Modules 
 There are three different types of modules.
@@ -28,5 +30,5 @@ There are three different types of modules.
     * A NOP generator produces a series of random bytes that you can use to bypass standard IDS and IPS NOP sled signatures. Use NOP generators to pad buffers
 6. The only aplicable ones to the class are Auxiliary and Exploit Modules, maybe keeping the payload or post exploit but this should at least for no only go into the exploit and auxillary.
 4. [Reference](https://docs.rapid7.com/metasploit/msf-overview/#:~:text=executes%20a%20sequence%20of%20commands%20to%20target%20a%20specific%20vulnerability%20found%20in%20a%20system%20or%20application.%20An%20exploit%20module%20takes%20advantage%20of%20a%20vulnerability%20to%20provide%20access%20to%20the%20target%20system)
-
+### Components of a Module
 
