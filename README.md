@@ -16,7 +16,7 @@ The first thing that you should know is what the different kinds of modules are,
 ### Different types of Modules 
 There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DOS/DDOS and Exploit module for the vChat server. 
 
-In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an MSF::Exploit class of module. Then in the case of out DOS/DDOS module we would want it to be a MSF:Auxillary class of module as no payload is going to be used or needed.
+In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an MSF::Exploit class of module. Then in the case of our DOS/DDOS module we would want it to be a MSF:Auxillary class of module as no payload is going to be used or needed.
 
 1. **Exploit Modules**
     * They Executes a sequence of commands to target a specific vulnerability found in a system or application. 
@@ -38,6 +38,15 @@ In the cases of our Exploit we are going to want to include a payload to gain fu
     * A NOP generator produces a series of random bytes that you can use to bypass standard IDS and IPS NOP sled signatures. Use NOP generators to pad buffers
 4. [Reference](https://docs.rapid7.com/metasploit/msf-overview/#:~:text=executes%20a%20sequence%20of%20commands%20to%20target%20a%20specific%20vulnerability%20found%20in%20a%20system%20or%20application.%20An%20exploit%20module%20takes%20advantage%20of%20a%20vulnerability%20to%20provide%20access%20to%20the%20target%20system)
 ### Components of a Module
+As mentioned earlier a module is written in Ruby. You do not need to be entirely familiar with this language to make a working module!
+
+The first part of a module is the definition itself. If you are familiar with object oriented languages like *Java* or *C++* 
+
+
+
+
+
+
 
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
