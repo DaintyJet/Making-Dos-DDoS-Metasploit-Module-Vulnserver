@@ -40,7 +40,7 @@ In the cases of our Exploit we are going to want to include a payload to gain fu
 ### Components of a Module
 As mentioned earlier a module is written in Ruby. You do not need to be entirely familiar with this language to make a working module!
 
-The first part of a module is the definition itself. If you are familiar with object oriented languages like Java or C++ then you are likely familiar with inheritance. In this case our new module will inherit descriptors, functions and Datastore objects. 
+The first part of a module is the definition of the new module itself. If you are familiar with object oriented languages like Java or C++ then you are likely familiar with inheritance. In this case our new module will inherit descriptors, functions and Datastore objects. 
 
 ```ruby
 class MetasploitModule < Msf::Exploit
