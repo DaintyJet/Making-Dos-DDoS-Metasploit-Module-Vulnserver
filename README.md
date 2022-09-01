@@ -29,7 +29,7 @@ In the cases of our Exploit we are going to want to include a payload to gain fu
 3. **Post-Exploitation Modules** 
     *  Enables you to gather more information or to gain further access to an exploited target system
     * Examples include hash dumps and application and service enumerators.
-4. **Payload Modules** \-***CAN BE REMOVED***
+4. **Payload Modules** \-***CAN BE REMOVED - all mentions of it would later need to be removed***
     * shell code that runs after an exploit successfully compromises a system.
     * enables you to define how you want to connect to the shell and what you want to do to the target system after you take control of it.
     * A payload can open a Meterpreter or command shell.
@@ -40,7 +40,7 @@ In the cases of our Exploit we are going to want to include a payload to gain fu
 ### Components of a Module
 As mentioned earlier a module is written in Ruby. You do not need to be entirely familiar with this language to make a working module!
 
-The first part of a module is the definition of the new module itself. If you are familiar with object oriented languages like Java or C++ then you are likely familiar with inheritance. In this case our new module will inherit descriptors, functions and Datastore objects. 
+The first part of a module is the definition of the new module itself. If you are familiar with object oriented languages like Java or C++ then you are likely familiar with inheritance. Our new module will inherit descriptors, functions and Datastore objects. 
 
 ```ruby
 class MetasploitModule < Msf::Exploit
@@ -48,7 +48,7 @@ class MetasploitModule < Msf::Exploit
     ...
 ```
 
-In this case we are making a new MetasploitModule which inherits from the Msf::Exploit base class if you would like to see more on the base calls you can access it [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit). 
+Above we are defining a new MetasploitModule which inherits from the Msf::Exploit base class. If you would like to see more information on the base calls you can access it [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit). In place of "Msf::Exploit" you can have any of **Msf::Auxillary**, **Msf::Post**, **Msf::Nop**, and **Msf::Payload** instead.
 
 
 
