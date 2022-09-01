@@ -16,7 +16,7 @@ The first thing that you should know is what the different kinds of modules are,
 ### Different types of Modules 
 There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DOS/DDOS and Exploit module for the vChat server. 
 
-In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an MSF::Exploit class of module. Then in the case of our DOS/DDOS module we would want it to be a MSF:Auxillary class of module as no payload is going to be used or needed.
+In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an Msf::Exploit class of module. Then in the case of our DOS/DDOS module we would want it to be a Msf:Auxillary class of module as no payload is going to be used or needed.
 
 1. **Exploit Modules**
     * They Executes a sequence of commands to target a specific vulnerability found in a system or application. 
@@ -42,10 +42,13 @@ As mentioned earlier a module is written in Ruby. You do not need to be entirely
 
 The first part of a module is the definition itself. If you are familiar with object oriented languages like Java or C++ then you are likely familiar with inheritance. In this case our new module will inherit descriptors, functions and Datastore objects. 
 
-```
-Test
+```ruby
+class MetasploitModule < Msf::Exploit
+    ...
+    ...
 ```
 
+In this case we are making a new MetasploitModule which inherits from the Msf::Exploit base class if you would like to see more on the base calls you can access it [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit). 
 
 
 
