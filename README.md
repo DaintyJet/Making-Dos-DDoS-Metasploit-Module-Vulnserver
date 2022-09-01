@@ -11,10 +11,12 @@ Metasploit modules are software written in Ruby that the Metasploit Framework us
 
 The first thing that you should know is what the different kinds of modules are, as each one gives them different sets of functionality. What type of module you define it as also give us an idea of what it should be used for.
 
-In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an MSF::Exploit class of module. Then in the case of out DOS/DDOS module we would want it to be a MSF:Auxillary class of module as no payload is going to be used or needed.
+
 
 ### Different types of Modules 
-There are different types of modules, the different types and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DOS/DDOS and Exploit module for the vChat server. 
+There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DOS/DDOS and Exploit module for the vChat server. 
+
+In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an MSF::Exploit class of module. Then in the case of out DOS/DDOS module we would want it to be a MSF:Auxillary class of module as no payload is going to be used or needed.
 
 1. **Exploit Modules**
     * They Executes a sequence of commands to target a specific vulnerability found in a system or application. 
