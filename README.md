@@ -69,20 +69,20 @@ When creating the DOS, DDOS and Exploit modules all will use the **Msf::Exploit:
 
 The [**Msf::Exploit::Remote::Tcp**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp) Mixin will provide us with necessary TCP/IP functions to interact with  remote servers, and **Datastore** objects to control that. 
 
-*Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions* ***REmove Space between this and above later***
+*Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions.* ***REmove Space between this and above later***
 
-The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos)
+The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos) provides DOS functionalities to the module, along with identifying the Auxiliary module specifically as a DOS module.
 
 So we will have the following Module
 ```ruby
 class MetasploitModule < Msf::Exploit
   Rank = NormalRanking	# Potential impact to the target
 
-  include Msf::Exploit::Remote::Tcp	# Include Remote::Tcp exploit module
-  include Msf::Auxiliary::Dos # Include A
+  include Msf::Exploit::Remote::Tcp	# In DOS, DDOS and Exploit
+  include Msf::Auxiliary::Dos       # Only in DOS and DDOS
 ```
-
-
+#### Datastore
+This is a structure used by the Metasploit frameworks to configure options in the Metasploit Module. 
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
 1. [Make citation - Metasploit What is a module](https://docs.rapid7.com/metasploit/modules/#:~:text=A%20module%20is%20a%20piece,%2C%20or%20post%2Dexploitation%20module.)
