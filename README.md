@@ -81,8 +81,10 @@ class MetasploitModule < Msf::Exploit
   include Msf::Exploit::Remote::Tcp	# In DOS, DDOS and Exploit
   include Msf::Auxiliary::Dos       # Only in DOS and DDOS
 ```
+//Need to mentione super and all that stuff first.......
+
 #### Datastore
-This is a structure used by the Metasploit frameworks to configure options in the Metasploit Module. 
+This is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
 1. [Make citation - Metasploit What is a module](https://docs.rapid7.com/metasploit/modules/#:~:text=A%20module%20is%20a%20piece,%2C%20or%20post%2Dexploitation%20module.)
