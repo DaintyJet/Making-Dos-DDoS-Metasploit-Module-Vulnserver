@@ -50,10 +50,36 @@ class MetasploitModule < Msf::Exploit
 
 Above we are defining a new MetasploitModule which inherits from the Msf::Exploit base class. If you would like to see more information on the base calls you can access it [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit). In place of "Msf::Exploit" you can have any of **Msf::Auxillary**, **Msf::Post**, **Msf::Nop**, and **Msf::Payload** instead.
 
+### New Class Definition
 
+Above we have defined a new class, but we must define components of the class, and some function that will use that class to make it useful. If you looked at the reference page for **Msf::Exploit** you may have noticed there are may characteristic of the module we can define but we will be focusing on the few necessary to describe the module and make it work.
+#### Ranking
+The first thing that we can include in the module is a threat ranking, there are several different rankings defined and they tell us ***how severe the exploit is*** [Cannot Access on School Wifi](https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html)
 
+This results in a Module that looks a little different 
+```ruby
+class MetasploitModule < Msf::Exploit
+  Rank = NormalRanking	# Potential impact to the target
+  ...
+```
+#### Mixins
+Mixins are an important concept in Ruby and the Metasploit Framework. They are modules that are included inside of a class. They expand the functionality of the class with that of the module. The main thing we are concerned with in the Metasploit framework are the **Datastore** objects and functions they provide.
 
+When creating the DOS, DDOS and Exploit modules all will use the **Msf::Exploit::Remote::Tcp** Mixin. If the module is a DOS or DDOS module it will also include the **Msf::Auxillary::Dos** module. 
 
+The [**Msf::Exploit::Remote::Tcp**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp) Mixin will provide us with necessary TCP/IP functions to interact with the remote server, and **Datastore** objects as well. 
+*Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions*
+
+The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos)
+
+So we will have the following Module
+```ruby
+class MetasploitModule < Msf::Exploit
+  Rank = NormalRanking	# Potential impact to the target
+
+  include Msf::Exploit::Remote::Tcp	# Include Remote::Tcp exploit module
+  include Msf::Auxiliary::Dos # Include A
+```
 
 
 ## References
