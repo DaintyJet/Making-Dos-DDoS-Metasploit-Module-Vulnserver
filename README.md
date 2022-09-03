@@ -101,11 +101,11 @@ class MetasploitModule < Msf::Exploit
 #### Super(update_info(...))
 You may have noticed that in the above **initialize** we did not appear to do anything at all. This is because at least in our case all of the *magic* happens in the **super(update_info())** function call.
 
-This function is where we set those ***attributes*** of the module that are defined [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit#:~:text=Instance%20Attribute%20Summary). We will be using only those necessary for our new module to work and to describe the module to the users. 
+This function is where we set the  ***attributes*** of the module and those attributes are defined [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit#:~:text=Instance%20Attribute%20Summary) and at other parent class references. We will be using only those necessary for our new module to work and to describe the module to the users. 
 
 We will be using the **'Name'**, **'Description'**, **'Author'**, **'License'**, **'References'**,  **'Privileged'**, and **'DisclosureDate'**. 
 
-In the case of the Exploit module we will additionally use **'Payload'**, **'Platform'**, **'Targets'**, and **'DefaultTarget'** see [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule#create-a-custom-module) for a complete view of this module.
+In the case of the Exploit module we will additionally use **'Payload'**, **'Platform'**, **'Targets'**, **'DefaultOptions'**, and **'DefaultTarget'** see [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule#create-a-custom-module) for a complete view of this module.
 
 * **'Name'** \- This is the name of the the Exploit.
 * **'Description'** \- This explains what the exploit is, what it does to the target computer, and anything else that a user would need to know about the exploit.
@@ -119,10 +119,81 @@ In the case of the Exploit module we will additionally use **'Payload'**, **'Pla
     * **'BadChars'** \- This defines characters to avoid when creating the encoded payload.
 * **'Platform'** \- This defines what platforms are supported by this module.
 * **'Targets'** \- This defines a list of targets and their attributes that may be used by the module. 
-* 
-* 
-* 
-* 
+* **'DefaultTarget'** \- This defines the element of the **'Targets'** list to use by default 
+* **'DefaultOptions'** \- This defines the defualt settings of options in the Module.
+
+There are many other attributes that can be used, if you want to see an alternative walkthrough of this you can reference [this](https://www.offensive-security.com/metasploit-unleashed/creating-auxiliary-module/)
+
+
+What we get from filling out that information in the **super(update_info(info, ...)** is the following.
+
+In the case of the DOS/DDOS module
+```ruby
+class MetasploitModule < Msf::Auxiliary	
+  Rank = NormalRanking	
+
+  include Msf::Exploit::Remote::Tcp	
+  include Msf::Auxiliary::Dos
+
+  def initialize(info = {})	
+    super(update_info(info,
+      'Name'           => 'Vulnserver Buffer Overflow-KNOCK command', 
+      'Description'    => %q{
+         Vulnserver is intentionally written vulnerable. This expoits uses a simple buffer overflow.
+      },
+      'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
+      'License'        => MSF_LICENSE,
+      'References'     =>	
+        [
+          [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+        ],
+      'Privileged'     => false,
+      'DisclosureDate' => 'Mar. 30, 2022'))	
+...
+```
+
+In the case of the Exploit module from [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule#create-a-custom-module:~:text=to%20write%20modules.-,%23%23,-%23%20The%20%23%20symbol%20starts)
+```ruby
+class MetasploitModule < Msf::Exploit::Remote
+  Rank = NormalRanking	
+
+  include Msf::Exploit::Remote::Tcp	
+
+  def initialize(info = {})	
+    super(update_info(info,
+      'Name'           => 'Vulnserver Buffer Overflow-KNOCK command',	
+      'Description'    => %q{	
+         Vulnserver is intentionally written vulnerable.
+      },
+      'Author'         => [ 'fxw' ],	
+      'License'        => MSF_LICENSE,
+      'References'     =>	
+        [
+          [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+        ],
+      'Privileged'     => false,
+      'DefaultOptions' =>
+        {
+          'EXITFUNC' => 'thread',
+        },      
+      'Payload'        =>
+        {
+ #         'Space'    => 5000,	
+          'BadChars' => "\x00\x0a"	
+        },
+      'Platform'       => 'Win',	# Supporting what platforms are supported, e.g., win, linux, osx, unix, bsd.
+      'Targets'        =>	
+        [
+          [ 'vulnserver-KNOCK',
+            {
+              'jmpesp' => 0x6250151C # This will be available in [target['jmpesp']]
+            }
+          ]
+        ],
+      'DefaultTarget'  => 0,
+      'DisclosureDate' => 'Mar. 30, 2022'))
+```
+*Notice that each attribute and sub attribute element is separated by a comma. -remember- these are arguments to a function or members or a list!* 
 
 #### Datastore
 This is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
