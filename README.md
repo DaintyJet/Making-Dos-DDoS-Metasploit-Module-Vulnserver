@@ -332,7 +332,7 @@ def rport
 end
 ```
 
-In this case you can override the function to change the value at runtime in the following way.
+In this case you can override the function in the following way to change the value at runtime.
 ```ruby
 def rport
   80
