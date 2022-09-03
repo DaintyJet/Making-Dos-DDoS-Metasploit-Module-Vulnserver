@@ -81,12 +81,54 @@ class MetasploitModule < Msf::Exploit
   include Msf::Exploit::Remote::Tcp	# In DOS, DDOS and Exploit
   include Msf::Auxiliary::Dos       # Only in DOS and DDOS
 ```
-//Need to mentione super and all that stuff first.......
+#### Initialize
+This is where the majority of the Module is defined, of course excluding the functions used to run it that is. This is the constructor and it sets the default values of the module.
+
+You may notice this contains a **super** statement, that is a ruby function that will call the parent class's function of that name. 
+
+It should before filling out the **super** function call look like  
+```ruby 
+class MetasploitModule < Msf::Exploit
+  Rank = NormalRanking	# Potential impact to the target
+
+  include Msf::Exploit::Remote::Tcp	# In DOS, DDOS and Exploit
+  include Msf::Auxiliary::Dos       # Only in DOS and DDOS
+  def initialize(info = {})	# i.e. constructor, setting the initial values
+    super(...)
+...
+```
+
+#### Super(update_info(...))
+You may have noticed that in the above **initialize** we did not appear to do anything at all. This is because at least in our case all of the *magic* happens in the **super(update_info())** function call.
+
+This function is where we set those ***attributes*** of the module that are defined [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit#:~:text=Instance%20Attribute%20Summary). We will be using only those necessary for our new module to work and to describe the module to the users. 
+
+We will be using the **'Name'**, **'Description'**, **'Author'**, **'License'**, **'References'**,  **'Privileged'**, and **'DisclosureDate'**. 
+
+In the case of the Exploit module we will additionally use **'Payload'**, **'Platform'**, **'Targets'**, and **'DefaultTarget'** see [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule#create-a-custom-module) for a complete view of this module.
+
+* **'Name'** \- This is the name of the the Exploit.
+* **'Description'** \- This explains what the exploit is, what it does to the target computer, and anything else that a user would need to know about the exploit.
+* **'Author'** \- This is a list of the Authors of the Module/Exploit
+* **'License'** \- This is the license the exploit can be distributed under ***Check***
+* **'References'** \- This is a list of additional information about the attack, what was used in it creation and even proofs of concept attacks.
+* **'Privileged'** \- This is whether the module grants or requires high privileges [ref](https://docs.metasploit.com/api/Msf/Module/Privileged.html).
+* **'DisclosureDate'** \- This is when the exploit was disclosed.
+* **'Payload'** \- This defines charicteristics about the encoded payload that will be generated and sent by the **Msf::Exploit** module. There are atriubutes that are defined in that that you will see below
+    * **'Space'** \- This defines how much space the encoded payload can take up. ***Reword***
+    * **'BadChars'** \- This defines characters to avoid when creating the encoded payload.
+* **'Platform'** \- This defines what platforms are supported by this module.
+* **'Targets'** \- This defines a list of targets and their attributes that may be used by the module. 
+* 
+* 
+* 
+* 
 
 #### Datastore
 This is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
 1. [Make citation - Metasploit What is a module](https://docs.rapid7.com/metasploit/modules/#:~:text=A%20module%20is%20a%20piece,%2C%20or%20post%2Dexploitation%20module.)
-1. More
+1. [More](https://docs.metasploit.com/api/Msf/Module/Privileged.html)
+1. Go through all hyperlinks and add here later.
 
