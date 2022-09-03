@@ -9,12 +9,12 @@ This is a walkthrough of making the DoS Metasploit module for Vulnserver a vulne
     * [Ranking](#ranking)
     * [Mixins](#mixins)
     * [Initialize](#initialize)
-    * [Super(update_info(...))](#superupdateinfo)
+    * [Super(update_info)](#superupdateinfo)
     * [Datastore](#datastore-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4) ***Edit link later once ref removed***
     * [register_options](#registeroptions)
-    * [deregister_options](#deregisteroptions-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4textcore20option-types-all20core20datastore)***Edit link later once ref removed***
-    * [Creating new Datastore objects](#creating-new-datastore-objects-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4textcore20option-types-all20core20datastore) ***Edit link later once ref removed***
-    * [Accessing Datastore Objects](#accessing-datastore-objects-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4text0aend-modifying-datastore20options20at) ***Edit link later once ref removed***
+    * [deregister_options](#deregisteroptions-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4textcore20option-types-all20core20datastore) ***Edit link later once ref removed***
+    * [Creating new Datastore objects](#creating-new-datastore-objects-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4textcore20option-types-all20core20datastore)  ***Edit link later once ref removed***
+    * [Accessing Datastore Objects](#accessing-datastore-objects-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4text0aend-modifying-datastore20options20at)  ***Edit link later once ref removed***
 * [Design Choices](#design-choices)
     * [DoS](#dos)
     * [DDoS](#ddos)
