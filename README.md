@@ -277,7 +277,40 @@ register_options(
 ])
 ```
 ___
+### Design Choices  
+This section will contain a bit of information on the defintion of the new Module's class and why some of the things were done the way they were. This will also have the **COMPLETE** module definition of the DoS and DDoS modules as code blocks.
 
+#### DoS
+The DoS module definition is almost the same as the **Msf::Exploit** Knock module. This is because it makes one connection with the functions provided by the **Msf::Exploit::Remote::Tcp** Mixin. It uses this connection to send the malicious message, the Mixin provides a few datastore objects to control those functions. Since we are only sending a message, and are not expecting a response as it will hopefully crash the server the only datastore objects we care about are *RHOST*  which is configured by the user and *RPORT*.  We assume the server is running on a know default port of 9999 so we will want to set the default value of *RPORT* to 9999.
+
+This results in the following Module
+```ruby
+# DoS
+class MetasploitModule < Msf::Auxiliary	
+  Rank = NormalRanking	
+
+  include Msf::Exploit::Remote::Tcp	
+  include Msf::Auxiliary::Dos
+
+  def initialize(info = {})	
+    super(update_info(info,
+      'Name'           => 'Vulnserver Buffer Overflow-KNOCK command', 
+      'Description'    => %q{
+         Vulnserver is intentially written vulnerable. This expoits uses a simple buffer overflow.
+      },
+      'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
+      'License'        => MSF_LICENSE,
+      'References'     =>	
+        [
+          [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+        ],
+      'Privileged'     => false,
+      'DisclosureDate' => 'Mar. 30, 2022'))	
+      register_options([
+      	Opt::RPORT(9999)
+      ])
+  end
+```
 
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
