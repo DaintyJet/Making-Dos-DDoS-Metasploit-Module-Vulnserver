@@ -1,5 +1,5 @@
 # Making DoS and DDoS Metasploit modules 
-This is a walkthrough that can be used to describe the process of making a gerneral Metasploit Module. However the main focus of this is making a DoS and DDoS Metasploit module for Vulnserver a vulnerable chat server. 
+This is a walkthrough that can be used to describe the process of making a general Metasploit Module. However the main focus of this is making a DoS and DDoS Metasploit module for Vulnserver a vulnerable chat server. 
 ## Table of Contents 
 * [Introduction](#introduction)
 * [Writing Modules](#writing-modules)
