@@ -514,7 +514,7 @@ class MetasploitModule < Msf::Auxiliary
     ensure # Ensures the exploit disconnects from the server
         disconnect
     end
-    end
+  end
 end
 ```
 ### DDoS End
