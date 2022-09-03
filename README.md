@@ -73,15 +73,15 @@ class MetasploitModule < Msf::Exploit
     ...
 ```
 
-Above we are defining a new MetasploitModule which inherits from the Msf::Exploit base class. If you would like to see more information on the base calls you can access it [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit). In place of "Msf::Exploit" you can have any of **Msf::Auxillary**, **Msf::Post**, **Msf::Nop**, and **Msf::Payload** instead.
+Above we are defining a new MetasploitModule which inherits from the **Msf::Exploit** base class. If you would like to see more information on the base class you can access it [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit). In place of "Msf::Exploit" you can have any of **Msf::Auxillary**, **Msf::Post**, **Msf::Nop**, and **Msf::Payload** instead.
 
 ### New Class Definition
 
-Above we have defined a new class, but we must define components of the class, and some function that will use that class to make it useful. If you looked at the reference page for **Msf::Exploit** you may have noticed there are may characteristic of the module we can define but we will be focusing on the few necessary to describe the module and make it work.
+Above we have defined a new class, but we must define components of the class, and some function that will use that class to make it useful. If you looked at the reference page for **Msf::Exploit**  linked earlier you may have noticed there are many characteristic of the module that we can define. But we will be focusing on the few necessary ones to describe the module and make it work.
 #### Ranking
-The first thing that we can include in the module is a threat ranking, there are several different rankings defined and they tell us ***how severe the exploit is*** [Cannot Access on School Wifi](https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html)
+The first thing that we can include in the module is a threat ranking, there are several different rankings defined and they tell us ***how severe the exploit is*** [ref - Cannot Access on School Wifi](https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html)
 
-There are many differnt rankings that you can chose from, they are listed below from lowest to highest.
+There are many different rankings that you can chose from, they are listed below from lowest to highest.
 * **ManualRanking** \- Exploit is unstable or difficult to exploit and is basically a DoS. It has a success rate of 15% or lower. This rating may be used when a module has no use unless it is specifically configured by the user.
 * **LowRanking** \- Exploit is nearly impossible to exploit on common platforms with under a 50% success rate.
 * **AverageRanking** \- Exploit is generally unreliable or difficult to exploit but it has a success rate of 50% or more for common platforms. 
@@ -92,41 +92,41 @@ There are many differnt rankings that you can chose from, they are listed below 
 * [ref - new one will not load](https://github.com/rapid7/metasploit-framework/wiki/Exploit-Ranking/9af9b4277da4bb5d9facbbf0c812779a9b26fc8c)
 
 
-Since our module will be private, and for personal use the selected ranking does not matter all that much and we can, for simplicity select a NormalRanking.
+Since our module will be private, and for personal use the selected ranking does not matter all that much and we can, for simplicity select the NormalRanking.
 
 This will result in the following module
 ```ruby
-class MetasploitModule < Msf::Exploit
+class MetasploitModule < Msf::Auxillary
   Rank = NormalRanking	# Potential impact to the target
   ...
 ```
 #### Mixins
-Mixins are an important concept in Ruby and the Metasploit Framework. They are modules that are included inside of a class. They expand the functionality of the class with that of the module. The main thing we are concerned with in the Metasploit framework are the **Datastore** objects and functions they provide.
+Mixins are an important concept in Ruby and the Metasploit Framework. They are modules that are included inside of a class. They expand the functionality of the class with that of the module. The main thing we are concerned with in the Metasploit framework are the **Datastore** objects and also functions they provide.
 
-When creating the DoS, DDoS and Exploit modules all will use the **Msf::Exploit::Remote::Tcp** Mixin. If the module is a DOS or DDOS module it will also include the **Msf::Auxillary::Dos** module. 
+When creating the DoS, DDoS and Exploit modules all will use the **Msf::Exploit::Remote::Tcp** Mixin. If the module is a DoS or DDoS module it will also include the **Msf::Auxillary::Dos** module. 
 
-The [**Msf::Exploit::Remote::Tcp**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp) Mixin will provide us with necessary TCP/IP functions to interact with  remote servers, and **Datastore** objects to control that. 
+The [**Msf::Exploit::Remote::Tcp**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp) Mixin will provide us with necessary TCP/IP functions to interact with  remote servers, and **Datastore** objects to control those functions. 
 
 *Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions.* ***REmove Space between this and above later***
 
-The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos) provides DOS functionalities to the module, along with identifying the Auxiliary module specifically as a DoS module.
+The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos) provides DOS functionalities to the module, along with identifying the Auxiliary module as a DoS module.
 
-So we will have the following Module
+So once we include mixins we will have the following module:
 ```ruby
-class MetasploitModule < Msf::Exploit
+class MetasploitModule < Msf::Auxillary
   Rank = NormalRanking	# Potential impact to the target
 
   include Msf::Exploit::Remote::Tcp	# In DOS, DDOS and Exploit
   include Msf::Auxiliary::Dos       # Only in DOS and DDOS
 ```
 #### Initialize
-This is where the majority of the Module is defined, of course excluding the functions used to run it that is. This is the constructor and it sets the default values of the module.
+This is where the majority of the Module is defined, of course this excludes the functions used to run it that is. This is the constructor and it sets the default values of the module.
 
 You may notice this contains a **super** statement, that is a ruby function that will call the parent class's function of that name. 
 
-It should before filling out the **super** function call look like  
+It should before filling out the **super** function call look like the following:
 ```ruby 
-class MetasploitModule < Msf::Exploit
+class MetasploitModule < Msf::Auxillary
   Rank = NormalRanking	# Potential impact to the target
 
   include Msf::Exploit::Remote::Tcp	# In DOS, DDOS and Exploit
@@ -137,13 +137,13 @@ class MetasploitModule < Msf::Exploit
 ```
 
 #### Super(update_info(...))
-You may have noticed that in the above **initialize** we did not appear to do anything at all. This is because at least in our case all of the *magic* happens in the **super(update_info())** function call.
+You may have noticed that in the above **initialize** we did not appear to do anything at all. This is because at least in our case all of the *magic* happens in the **super(update_info(info, ...))** function call.
 
-This function is where we set the  ***attributes*** of the module and those attributes are defined [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit#:~:text=Instance%20Attribute%20Summary) and at other parent class references. We will be using only those necessary for our new module to work and to describe the module to the users. 
+This function is where we set the ***attributes*** of the module and those attributes are defined [here](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit#:~:text=Instance%20Attribute%20Summary) and at other parent class references. We will be using only those necessary for our new module to work and to describe the module to the users. 
 
 We will be using the **'Name'**, **'Description'**, **'Author'**, **'License'**, **'References'**,  **'Privileged'**, and **'DisclosureDate'**. 
 
-In the case of the Exploit module we will additionally use **'Payload'**, **'Platform'**, **'Targets'**, **'DefaultOptions'**, and **'DefaultTarget'** see [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule#create-a-custom-module) for a complete view of this module.
+In the case of the Exploit module we would additionally use **'Payload'**, **'Platform'**, **'Targets'**, **'DefaultOptions'**, and **'DefaultTarget'** see [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule#create-a-custom-module) for a complete view of this module.
 
 * **'Name'** \- This is the name of the the Exploit.
 * **'Description'** \- This explains what the exploit is, what it does to the target computer, and anything else that a user would need to know about the exploit.
@@ -251,9 +251,9 @@ A Datastore object can have the following types. *This is an abridged descriptio
 Now that we know the available types that we can create, store or update in the module we can start defining them. **reword**
 
 #### register_options([...])
-Creating new and setting defaults of predefined Datastore objects is primarily done in the  *register_options* function.
+Creating new and setting defaults of predefined Datastore objects is primarily done in the *register_options* function.
 
-The function when it is empty will look like the following. Notice that the arguments will be a array, which will be a comma separated list of Datastore objects to set or create.
+The function when it is empty will look like the following. Notice that the argument will be an array, which will be a comma separated list of Datastore objects to set or create.
 ```ruby
 register_options(
   [
@@ -274,15 +274,6 @@ register_options(
   ])
 ```
 If you want to create a new Datastore object the process is a bit more complected as you need to use the *constructor* of the datastore type.
-
-#### deregister_options(...) [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
-
-This is a simple way of removing unused datastore options that are provided by a mixin module. It is as simple as doing the following.
-```ruby
-deregister_options('OPT1', 'OPT2', ...)
-```
-This would likely be located below the *register_options* function.
-
 
 #### Creating new Datastore objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
 When doing this you will have something like **Opt\<Type\>.new(...)** in the *register_options* function.
@@ -310,39 +301,48 @@ register_options(
         OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
 ])
 ```
+
+#### deregister_options(...) [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
+
+This is a simple way of removing unused datastore options that are provided by a mixin module. It is as simple as doing the following.
+```ruby
+deregister_options('OPT1', 'OPT2', ...)
+```
+This would likely be located below the *register_options* function.
+
 #### Accessing Datastore Objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=\)\)%0Aend-,Modifying,-datastore%20options%20at)
 
 This will come up a little later, but the way you access the datastore object is quite simple. All you have to do is **datastore['\<NameOfObject\>']** where you replace **\<NameOfObject\>** with the name of the datastore object you would like to access. 
 
-So an example is,
+So an example is:
 ```ruby 
 print datastore['RPORT'] 
 print datastore['MyCustomObject']
 ...  
 ```
 
-It is not recommended that you change the values of datastore objects at runtime. That is you should not do the following 
+It is not recommended that you change the values of datastore objects at runtime. That is you should not do the following: 
 ```ruby
 datastore['RHOST'] = 127.0.0.1 
 ```
-Instead you should override a method. The example they give is that sometimes mixins will retrieve datastore objects in the following way.
+Instead you should override a method. The example they give is that sometimes mixins will retrieve datastore objects in the following way:
 ```ruby 
 def rport
   datastore['RPORT']
 end
 ```
 
-In this case you can override the function in the following way to change the value at runtime.
+In this case you can override the function in the following way to change the value at runtime:
 ```ruby
 def rport
   80
 end
 ```
 ## Design Choices  
-This section will contain a bit of information on the defintion of the new Module's class and why some of the things were done the way they were. This will also have the **COMPLETE** module definition of the DoS and DDoS modules as code blocks.
+This section will contain a bit of information on the definition of the new Module's class and why some of the things were done the way they were. This will also have the **COMPLETE** module definition of the DoS and DDoS modules as code blocks.
 
 ### DoS
-The DoS module definition is almost the same as the **Msf::Exploit** Knock module. This is because it makes one connection with the functions provided by the **Msf::Exploit::Remote::Tcp** Mixin. It uses this connection to send the malicious message, the Mixin provides a few datastore objects to control those functions. Since we are only sending a message, and are not expecting a response as it will hopefully crash the server the only datastore objects we care about are *RHOST*  which is configured by the user and *RPORT*.  We assume the server is running on a know default port of 9999 so we will want to set the default value of *RPORT* to 9999.
+The DoS module definition is almost the same as the **Msf::Exploit** Knock module. This is because it makes one connection with the functions provided by the **Msf::Exploit::Remote::Tcp** Mixin. It uses this connection to send the malicious message, and the Mixin provides a few datastore objects to control those functions. Since we are only sending a message, and are not expecting a response as it will hopefully crash the server the only datastore objects we care about are *RHOST*  which is configured by the user and *RPORT*.  We assume the server is running on a know default port of 9999 so we will want to set the default value of *RPORT* to 9999.
 
 This results in the following Module:
 ```ruby
