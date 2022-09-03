@@ -56,6 +56,17 @@ Above we have defined a new class, but we must define components of the class, a
 #### Ranking
 The first thing that we can include in the module is a threat ranking, there are several different rankings defined and they tell us ***how severe the exploit is*** [Cannot Access on School Wifi](https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html)
 
+There are many differnt rankings that you can chose from, they are listed below from lowest to highest.
+* ManualRanking \- Exploit is unstable or difficult to exploit and is basically a DoS. It has a success rate of 15% or lower. This rating may be used when a module has no use unless it is specifically configured by the user.
+* LowRanking \- Exploit is nearly impossible to exploit on common platforms with under a 50% success rate.
+* AverageRanking \- Exploit is generally unreliable or difficult to exploit but it has a success rate of 50% or more for common platforms. 
+* NormalRanking \- Exploit is otherwise reliable but it depends on a specific versions that is not the "common case" for a type of software. It cannot or does not reliably autodetect the target.
+* GoodRanking \- Exploit has a default target and does not autodetect the target. It works on the "common case" of a type of software (i.e Windows 7/10/11, Windows server 2012/2016, ect.).
+* GreatRanking \- This has a default target and will either autodetect the appropriate target or use an application-specific return address after a version check.
+* ExcellentRanking \- This exploit will never crash the service.
+* [ref - new one will not load](https://github.com/rapid7/metasploit-framework/wiki/Exploit-Ranking/9af9b4277da4bb5d9facbbf0c812779a9b26fc8c)
+
+
 This results in a Module that looks a little different 
 ```ruby
 class MetasploitModule < Msf::Exploit
