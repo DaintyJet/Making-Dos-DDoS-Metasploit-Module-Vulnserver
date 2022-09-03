@@ -226,7 +226,7 @@ A Datastore object can have the following types. *This is an abridged descriptio
 Now that we know the available types that we can create, store or update in the module we can start defining them. **reword**
 
 #### register_options([...])
-Creating new and setting defaults of predefined Datastore objects is primarily done in the  **register_options** function.
+Creating new and setting defaults of predefined Datastore objects is primarily done in the  *register_options* function.
 
 The function when it is empty will look like the following. Notice that the arguments will be a array, which will be a comma separated list of Datastore objects to set or create.
 ```ruby
@@ -250,8 +250,17 @@ register_options(
 ```
 If you want to create a new Datastore object the process is a bit more complected as you need to use the *constructor* of the datastore type.
 
+#### deregister_options(...) [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
+
+This is a simple way of removing unused datastore options that are provided by a mixin module. It is as simple as doing the following.
+```ruby
+deregister_options('OPT1', 'OPT2', ...)
+```
+This would likely be located below the *register_options* function.
+
+
 #### Creating new Datastore objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
-When doing this you will have something like **Opt\<Type\>.new(...)** in the **register_options** function.
+When doing this you will have something like **Opt\<Type\>.new(...)** in the *register_options* function.
 
 The constructor will have the following structure and arguments.
 ```ruby
@@ -267,7 +276,7 @@ Opt\<Type\>.new(option_name, [boolean, description, value, *enums*], aliases: *a
 * Taken and slightly rephrased from [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
 
 
-So if we want to create a Datastore object called *ThreadNum* for the DDOS module, and redefine the *RHOST* and *RPORT* objects since we will not use the **Msf::Exploit::Remote:Tcp** mixin too. We would have the following **register_options*:
+So if we want to create a Datastore object called *ThreadNum* for the DDOS module, and redefine the *RHOST* and *RPORT* objects since we will not use the **Msf::Exploit::Remote:Tcp** mixin too. We would have the following *register_options* function call:
 ```ruby
 register_options(
 [
@@ -276,7 +285,33 @@ register_options(
         OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
 ])
 ```
-___
+#### Accessing Datastore Objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=))%0Aend-,Modifying,-datastore%20options%20at)
+This will come up a little later, but the way you access the datastore object is quite simple. All you have to do is **datastore['\<NameOfObject\>']** where you replace **\<NameOfObject\>** with the name of the datastore object you would like to access. 
+
+So an example is,
+```ruby 
+print datastore['RPORT'] 
+print datastore['MyCustomObject']
+...  
+```
+
+It is not recommended that you change the values of datastore objects at runtime. That is you should not do the following 
+```ruby
+datastore['RHOST'] = 127.0.0.1 
+```
+Instead you should override a method. The example they give is that sometimes mixins will retrieve datastore objects in the following way.
+```ruby 
+def rport
+  datastore['RPORT']
+end
+```
+
+In this case you can override the function to change the value at runtime in the following way.
+```ruby
+def rport
+  80
+end
+```
 ### Design Choices  
 This section will contain a bit of information on the defintion of the new Module's class and why some of the things were done the way they were. This will also have the **COMPLETE** module definition of the DoS and DDoS modules as code blocks.
 
@@ -313,7 +348,7 @@ class MetasploitModule < Msf::Auxiliary
 ```
 #### DDoS
 
-This module is meant to create a certain number of connections to the vulnserver and this number is defined by the user. This is done to clog the vChat vulnserver and prevent other *normal* users from connecting. We do not use the **Msf::Exploit::Remote::Tcp** Mixin because the **connect** function it provides will timeout the connection. We use Ruby's socket library to get the same functionality while also defining a *RPORT* and *RHOST* datastore option to use the same conventions as modules that use the **Msf::Exploit::Remote::Tcp** Mixin.   
+This module is meant to create a certain number of connections to the vulnserver and this number is defined by the user. This is done to clog the vChat vulnserver and prevent other *normal* users from connecting. We do not use the **Msf::Exploit::Remote::Tcp** Mixin because the **connect** function it provides will timeout the connection. We use Ruby's *socket* library to get the same functionality while also defining a *RPORT* and *RHOST* datastore option to use the same conventions as modules that use the **Msf::Exploit::Remote::Tcp** Mixin.   
 
 This results in the following Module:
 ```ruby
@@ -364,7 +399,7 @@ def run
 end
 ```
 #### DoS Module
-The DoS module that is contained in the repository contains additional code to describe and show what is happening. The following will show a minimal definition of the *run* function for the DoS module.
+The DoS module that is contained in the repository contains additional code to describe and show what is happening. The following will show a minimal definition of the *run* function for the DoS module. It will a
 
 The purpose of the DoS module is to send a specially crafted message which will exploit a buffer overflow  to crash the chat server. We will need to do the following.
 1. Connect to the server.
@@ -387,9 +422,31 @@ end
 ```
 
 #### DDoS Module
+The DDoS module that is contained in this repository will have slightly different code from what is in the codeblock below. They will have the same functionality but print statements will be removed and comments may be different.
+
+The purpose of the DDoS module is to create a certian number of connections to the specified server. The number of connections is specified by the user in the *ThreadNum* datastore object. In order to do this we will need to use multiple threads so that we can create and hold multiple connections. Earlier we also mentioned we will not be using the **Msf::Exploit::Remote::Tcp** Mixin. Again this is because the **connect** function that it provides will time out after a certain amount of time. We want to hold the connection indefinitely, so we use Ruby's *socket* library. We will want to do the following.
+1. Create a number of threads specified by the ThreadNum datastore object
+1. The threads will create a socket object 
+    * The threads will connect to the server at the Datastore object *RHOST* on port *RPORT*
+    * The threads will hold the connection indefinitely 
+1. The program will not close the threads.
 
 
+With those requirements in mind we will create the following *run* function. We will also create a helper function, this will be the function that the threads will run.
+```ruby
+def threadExploit
+    threadSocket = TCPSocket.new datastore['RHOST'], datastore['RPORT']
+    while(1)
+        threadSocket.gets
+    end
+end
 
+def run
+    for x in 1..datastore['ThreadNum'] do
+        Thread.new(threadExploit())
+    end
+end
+```
 
 
 ## References
