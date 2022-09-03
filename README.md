@@ -57,13 +57,13 @@ Above we have defined a new class, but we must define components of the class, a
 The first thing that we can include in the module is a threat ranking, there are several different rankings defined and they tell us ***how severe the exploit is*** [Cannot Access on School Wifi](https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html)
 
 There are many differnt rankings that you can chose from, they are listed below from lowest to highest.
-* ManualRanking \- Exploit is unstable or difficult to exploit and is basically a DoS. It has a success rate of 15% or lower. This rating may be used when a module has no use unless it is specifically configured by the user.
-* LowRanking \- Exploit is nearly impossible to exploit on common platforms with under a 50% success rate.
-* AverageRanking \- Exploit is generally unreliable or difficult to exploit but it has a success rate of 50% or more for common platforms. 
-* NormalRanking \- Exploit is otherwise reliable but it depends on a specific versions that is not the "common case" for a type of software. It cannot or does not reliably autodetect the target.
-* GoodRanking \- Exploit has a default target and does not autodetect the target. It works on the "common case" of a type of software (i.e Windows 7/10/11, Windows server 2012/2016, ect.).
-* GreatRanking \- This has a default target and will either autodetect the appropriate target or use an application-specific return address after a version check.
-* ExcellentRanking \- This exploit will never crash the service.
+* **ManualRanking** \- Exploit is unstable or difficult to exploit and is basically a DoS. It has a success rate of 15% or lower. This rating may be used when a module has no use unless it is specifically configured by the user.
+* **LowRanking** \- Exploit is nearly impossible to exploit on common platforms with under a 50% success rate.
+* **AverageRanking** \- Exploit is generally unreliable or difficult to exploit but it has a success rate of 50% or more for common platforms. 
+* **NormalRanking** \- Exploit is otherwise reliable but it depends on a specific versions that is not the "common case" for a type of software. It cannot or does not reliably autodetect the target.
+* **GoodRanking** \- Exploit has a default target and does not autodetect the target. It works on the "common case" of a type of software (i.e Windows 7/10/11, Windows server 2012/2016, ect.).
+* **GreatRanking** \- This has a default target and will either autodetect the appropriate target or use an application-specific return address after a version check.
+* **ExcellentRanking** \- This exploit will never crash the service.
 * [ref - new one will not load](https://github.com/rapid7/metasploit-framework/wiki/Exploit-Ranking/9af9b4277da4bb5d9facbbf0c812779a9b26fc8c)
 
 
@@ -212,16 +212,16 @@ class MetasploitModule < Msf::Exploit::Remote
 This is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
 
 A Datastore object can have the following types. *This is an abridged description, see [this - old Link depicted](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4) for more details.
-* OptAddress \- IPv4 address.
-* OptAddressRange \- Range of IPv4 Addresses (ex. 10.0.3.1/24)
-* OptBool \- Stores a boolean options, True or False.
-* OptEnum \- This stores a value from a predefined list of accepted values.
-* OptInt \- Stores a integer value, this can either be a hex or decimal value.
-* OptPath \- Stores a local file path
-* OptPort \- Stores a port (socket) number, this is between 0 and 65535
-* OptRaw \- Function is the same as OptString
-* OptRegexp \- Stores a regular expression
-* OptString \- Stores a string, if it begins with "**file://**" it will read from the beginning of that file to get a string.
+* **OptAddress** \- IPv4 address.
+* **OptAddressRange** \- Range of IPv4 Addresses (ex. 10.0.3.1/24)
+* **OptBool** \- Stores a boolean options, True or False.
+* **OptEnum** \- This stores a value from a predefined list of accepted values.
+* **OptInt** \- Stores a integer value, this can either be a hex or decimal value.
+* **OptPath** \- Stores a local file path
+* **OptPort** \- Stores a port (socket) number, this is between 0 and 65535
+* **OptRaw** \- Function is the same as OptString
+* **OptRegexp** \- Stores a regular expression
+* **OptString** \- Stores a string, if it begins with "**file://**" it will read from the beginning of that file to get a string.
 
 Now that we know the available types that we can create, store or update in the module we can start defining them. **reword**
 
@@ -238,6 +238,44 @@ register_options(
   ])
 ```
 Setting a new default value of an already existing Datastore object, that comes from a Mixin is relatively simple. You do "**Opt::\<NAME\>(NewValue)**" where \<Name\> is the Datastore Object you want to set the value of. 
+
+Example:
+```ruby
+register_options(
+  [
+   Opt::RPORT(9999),
+   Opt::LPORT(1025),
+   ...
+  ])
+```
+If you want to create a new Datastore object the process is a bit more complected as you need to use the *constructor* of the datastore type.
+
+##### Creating new Datastore objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
+When doing this you will have something like **Opt\<Type\>.new(...)** in the **register_options** function.
+
+The constructor will have the following structure and arguments.
+```ruby
+Opt\<Type\>.new(option_name, [boolean, description, value, *enums*], aliases: *aliases*, conditions: *conditions*)
+```
+* **option_name** \- This is the name of the Datastore option, you will use it to access the value it stores
+* **boolean** \- This defines whether this is a required (True) or optional (false) option
+* **description** \- This is a short description of this option, often describing what it influences or does.
+* **value** \- This is the default value, if the **boolean** is set to false this does not need to be set as it will automatically be *nil*. 
+* **enum** \- This is a *optional* list of accepted values. Ex ["LEFT", "RIGHT", "CENTER", ...]
+* **aliases** \- This is an optional array of keywords that can alternatively be used to refer to this datastore object. This is often used when renaming datastore objects to retain backwards compatibility. 
+* **conditions** \- This is an array of conditions which when met will lead to the option being displayed. This is optional and is used to hid options that are irrelevant based on other configurations.
+* Taken and slightly rephrased from [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
+
+
+So if we want to create a Datastore object called *ThreadNum* for the DDOS module, and redefine the *RHOST* and *RPORT* objects since we will not use the **Msf::Exploit::Remote:Tcp** mixin too. We would have the following **register_options*:
+```ruby
+register_options(
+[
+        OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]) # Sets the number of threads to use
+        OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
+        OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
+])
+```
 
 
 ## References
