@@ -221,10 +221,23 @@ A Datastore object can have the following types. *This is an abridged descriptio
 * OptPort \- Stores a port (socket) number, this is between 0 and 65535
 * OptRaw \- Function is the same as OptString
 * OptRegexp \- Stores a regular expression
-* OptString \- Stores a string, if it begins with **file://** it will read from that file.
+* OptString \- Stores a string, if it begins with "**file://**" it will read from the beginning of that file to get a string.
 
+Now that we know the available types that we can create, store or update in the module we can start defining them. **reword**
 
+#### register_options([...])
+Creating new and setting defaults of predefined Datastore objects is primarily done in the  **register_options** function.
 
+The function when it is empty will look like the following. Notice that the arguments will be a array, which will be a comma separated list of Datastore objects to set or create.
+```ruby
+register_options(
+  [
+   ...,
+   ...,
+   ...
+  ])
+```
+Setting a new default value of an already existing Datastore object, that comes from a Mixin is relatively simple. You do "**Opt::\<NAME\>(NewValue)**" where \<Name\> is the Datastore Object you want to set the value of. 
 
 
 ## References
