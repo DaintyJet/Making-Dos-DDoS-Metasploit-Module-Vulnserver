@@ -145,7 +145,7 @@ In the case of the DOS/DDOS module
 class MetasploitModule < Msf::Auxiliary	
   Rank = NormalRanking	
 
-  include Msf::Exploit::Remote::Tcp	
+  include Msf::Exploit::Remote::Tcp	# This would not be in the DDoS module
   include Msf::Auxiliary::Dos
 
   def initialize(info = {})	
