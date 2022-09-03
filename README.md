@@ -2,9 +2,33 @@
 This is a walkthrough of making the DoS Metasploit module for Vulnserver a vulnerable chat server. 
 ## Table of Contents 
 * [Introduction](#introduction)
+* [Writing Modules](#writing-modules)
     * [Different types of Modules](#different-types-of-modules)
-
+    * [Components of a Module](#components-of-a-module)
+    * [Start of a Module](#start-of-a-module)
+    * [Ranking](#ranking)
+    * [Mixins](#mixins)
+    * [Initialize](#initialize)
+    * [Super(update_info(...))](#superupdateinfo)
+    * [Datastore](#datastore-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4) ***Edit link later once ref removed***
+    * [register_options](#registeroptions)
+    * [deregister_options](#deregisteroptions-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4textcore20option-types-all20core20datastore)***Edit link later once ref removed***
+    * [Creating new Datastore objects](#creating-new-datastore-objects-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4textcore20option-types-all20core20datastore) ***Edit link later once ref removed***
+    * [Accessing Datastore Objects](#accessing-datastore-objects-refhttpsgithubcomrapid7metasploit-frameworkwikihow-to-use-datastore-options1ec0c3c29961af66ff2dc3421e7e749a06a07ee4text0aend-modifying-datastore20options20at) ***Edit link later once ref removed***
+* [Design Choices](#design-choices)
+    * [DoS](#dos)
+    * [DDoS](#ddos)
+* [Writing the run function of the Auxiliary Module](#writing-the-run-function-of-the-auxiliary-module)
+    * [Msf::Auxillary](#msfauxillary)
+    * [DoS Module](#dos-module)
+    * [DDoS Module](#ddos-module)
+* [End Result](#end-result)
+    * [DoS End](#dos-end)
+    * [DDoS End](#ddos-end)
 * [References](#references)
+
+
+
 ## Introduction 
 Metasploit modules are software written in Ruby that the Metasploit Framework uses to preform a specific task 
 \([reference](https://docs.rapid7.com/metasploit/modules#:~:text=A%20module%20is%20a%20piece%20of%20software%20that%20the%20Metasploit%20Framework%20uses%20to%20perform%20a%20task%2C%20such%20as%20exploiting%20or%20scanning%20a%20target.)\).
@@ -12,6 +36,7 @@ Metasploit modules are software written in Ruby that the Metasploit Framework us
 The first thing that you should know is what the different kinds of modules are, as each one gives them different sets of functionality. What type of module you define it as also give us an idea of what it should be used for.
 
 
+## Writing Modules
 
 ### Different types of Modules 
 There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DoS/DDOS and Exploit module for the vChat server. 
@@ -37,7 +62,7 @@ In the cases of our Exploit we are going to want to include a payload to gain fu
 5. **NOP-generator Module** \-***CAN BE REMOVED***
     * A NOP generator produces a series of random bytes that you can use to bypass standard IDS and IPS NOP sled signatures. Use NOP generators to pad buffers
 4. [Reference](https://docs.rapid7.com/metasploit/msf-overview/#:~:text=executes%20a%20sequence%20of%20commands%20to%20target%20a%20specific%20vulnerability%20found%20in%20a%20system%20or%20application.%20An%20exploit%20module%20takes%20advantage%20of%20a%20vulnerability%20to%20provide%20access%20to%20the%20target%20system)
-### Components of a Module
+### Start of a Module
 As mentioned earlier a module is written in Ruby. You do not need to be entirely familiar with this language to make a working module!
 
 The first part of a module is the definition of the new module itself. If you are familiar with object oriented languages like Java or C++ then you are likely familiar with inheritance. Our new module will inherit descriptors, functions and Datastore objects. 
@@ -285,7 +310,8 @@ register_options(
         OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
 ])
 ```
-#### Accessing Datastore Objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=))%0Aend-,Modifying,-datastore%20options%20at)
+#### Accessing Datastore Objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=\)\)%0Aend-,Modifying,-datastore%20options%20at)
+
 This will come up a little later, but the way you access the datastore object is quite simple. All you have to do is **datastore['\<NameOfObject\>']** where you replace **\<NameOfObject\>** with the name of the datastore object you would like to access. 
 
 So an example is,
@@ -312,10 +338,10 @@ def rport
   80
 end
 ```
-### Design Choices  
+## Design Choices  
 This section will contain a bit of information on the defintion of the new Module's class and why some of the things were done the way they were. This will also have the **COMPLETE** module definition of the DoS and DDoS modules as code blocks.
 
-#### DoS
+### DoS
 The DoS module definition is almost the same as the **Msf::Exploit** Knock module. This is because it makes one connection with the functions provided by the **Msf::Exploit::Remote::Tcp** Mixin. It uses this connection to send the malicious message, the Mixin provides a few datastore objects to control those functions. Since we are only sending a message, and are not expecting a response as it will hopefully crash the server the only datastore objects we care about are *RHOST*  which is configured by the user and *RPORT*.  We assume the server is running on a know default port of 9999 so we will want to set the default value of *RPORT* to 9999.
 
 This results in the following Module:
@@ -346,7 +372,7 @@ class MetasploitModule < Msf::Auxiliary
       ])
   end
 ```
-#### DDoS
+### DDoS
 
 This module is meant to create a certain number of connections to the vulnserver and this number is defined by the user. This is done to clog the vChat vulnserver and prevent other *normal* users from connecting. We do not use the **Msf::Exploit::Remote::Tcp** Mixin because the **connect** function it provides will timeout the connection. We use Ruby's *socket* library to get the same functionality while also defining a *RPORT* and *RHOST* datastore option to use the same conventions as modules that use the **Msf::Exploit::Remote::Tcp** Mixin.   
 
@@ -359,32 +385,32 @@ class MetasploitModule < Msf::Auxiliary
     include Msf::Auxiliary::Dos 
     Rank = NormalRanking
 
-def initialize(info = {})
-    super(update_info(info, 
-        'Name'           => 'Vulnserver DDoS', 
-        'Description'    => %q{
-            Vulnserver is intentionally written vulnerable. This exploits uses a simple buffer overflow.
-        },
-        'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
-        'License'        => MSF_LICENSE,
-        'References'     =>	
-        [
-            [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
-        ],
-        'Privileged'     => false,
-        'DisclosureDate' => 'Mar. 30, 2022'))	
-        register_options(
-        [
-            OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]), 
-            OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
-            OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
-        ])
-    end
+    def initialize(info = {})
+        super(update_info(info, 
+            'Name'           => 'Vulnserver DDoS', 
+            'Description'    => %q{
+                Vulnserver is intentionally written vulnerable. This exploits uses a simple buffer overflow.
+            },
+            'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
+            'License'        => MSF_LICENSE,
+            'References'     =>	
+            [
+                [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+            ],
+            'Privileged'     => false,
+            'DisclosureDate' => 'Mar. 30, 2022'))	
+            register_options(
+            [
+                OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]), 
+                OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
+                OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
+            ])
+        end
 ```
-### Running the Auxiliary Module
+## Writing the run function of the Auxiliary Module
 This section will be on defining the function that will run the **Msf::Auxillary** module in the Metasploit console or Arimitage application. This will be in general what the function definition looks like, and the specific cases for both the DoS and DDoS modules.
 
-#### Msf::Auxillary
+### Msf::Auxillary
 The **Msf::Auxillary** modules define a function *run*, this is where the executed code, and is the equivalent of a *main* function in C, C++ or Java. ***This is a comparison*** The body of the *run* function will contain normal Ruby code.
 
 You can define additional function that the *run* function calls and interacts with, but we use the *run* function as the entrypoint of the program when executing the module.
@@ -399,7 +425,7 @@ def run
     ...
 end
 ```
-#### DoS Module
+### DoS Module
 The DoS module that is contained in the repository contains additional code to describe and show what is happening. The following will show a minimal definition of the *run* function for the DoS module. It will a
 
 The purpose of the DoS module is to send a specially crafted message which will exploit a buffer overflow  to crash the chat server. We will need to do the following.
@@ -422,7 +448,7 @@ def run
 end
 ```
 
-#### DDoS Module
+### DDoS Module
 The DDoS module that is contained in this repository will have slightly different code from what is in the codeblock below. They will have the same functionality but print statements will be removed and comments may be different.
 
 The purpose of the DDoS module is to create a certian number of connections to the specified server. The number of connections is specified by the user in the *ThreadNum* datastore object. In order to do this we will need to use multiple threads so that we can create and hold multiple connections. Earlier we also mentioned we will not be using the **Msf::Exploit::Remote::Tcp** Mixin. Again this is because the **connect** function that it provides will time out after a certain amount of time. We want to hold the connection indefinitely, so we use Ruby's *socket* library. We will want to do the following.
@@ -448,11 +474,11 @@ def run
     end
 end
 ```
-### End Result 
+## End Result 
 These are the end results of making the module body and functions for both the DoS and DDoS modules. They will be slightly different from the code in the repository as they will have the simplified run and helper function.
 
 
-#### DoS End
+### DoS End
 ```ruby
 # DoS
 class MetasploitModule < Msf::Auxiliary	
@@ -491,7 +517,7 @@ class MetasploitModule < Msf::Auxiliary
     end
 end
 ```
-#### DDoS End
+### DDoS End
 ```ruby
 # DDoS
 require 'socket'
@@ -500,26 +526,26 @@ class MetasploitModule < Msf::Auxiliary
     include Msf::Auxiliary::Dos 
     Rank = NormalRanking
 
-def initialize(info = {})
-    super(update_info(info, 
-        'Name'           => 'Vulnserver DDoS', 
-        'Description'    => %q{
-            Vulnserver is intentionally written vulnerable. This exploits uses a simple buffer overflow.
-        },
-        'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
-        'License'        => MSF_LICENSE,
-        'References'     =>	
-        [
-            [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
-        ],
-        'Privileged'     => false,
-        'DisclosureDate' => 'Mar. 30, 2022'))	
-        register_options(
-        [
-            OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]), 
-            OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
-            OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
-        ])
+    def initialize(info = {})
+        super(update_info(info, 
+            'Name'           => 'Vulnserver DDoS', 
+            'Description'    => %q{
+                Vulnserver is intentionally written vulnerable. This exploits uses a simple buffer overflow.
+            },
+            'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
+            'License'        => MSF_LICENSE,
+            'References'     =>	
+            [
+                [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+            ],
+            'Privileged'     => false,
+            'DisclosureDate' => 'Mar. 30, 2022'))	
+            register_options(
+            [
+                OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]), 
+                OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
+                OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
+            ])
     end
 
     def threadExploit
