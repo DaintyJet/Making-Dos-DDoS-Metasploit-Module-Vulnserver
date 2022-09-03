@@ -67,7 +67,9 @@ There are many differnt rankings that you can chose from, they are listed below 
 * [ref - new one will not load](https://github.com/rapid7/metasploit-framework/wiki/Exploit-Ranking/9af9b4277da4bb5d9facbbf0c812779a9b26fc8c)
 
 
-This results in a Module that looks a little different 
+Since our module will be private, and for personal use the selected ranking does not matter all that much and we can, for simplicity select a NormalRanking.
+
+This will result in the following module
 ```ruby
 class MetasploitModule < Msf::Exploit
   Rank = NormalRanking	# Potential impact to the target
@@ -204,10 +206,27 @@ class MetasploitModule < Msf::Exploit::Remote
       'DefaultTarget'  => 0,
       'DisclosureDate' => 'Mar. 30, 2022'))
 ```
-*Notice that each attribute and sub attribute element is separated by a comma. -remember- these are arguments to a function or members or a list!* 
+*Notice that each attribute and sub attribute element is separated by a comma. **remember** these are arguments to a function or members or a list!* 
 
-#### Datastore
+#### Datastore [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4)
 This is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
+
+A Datastore object can have the following types. *This is an abridged description, see [this - old Link depicted](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4) for more details.
+* OptAddress \- IPv4 address.
+* OptAddressRange \- Range of IPv4 Addresses (ex. 10.0.3.1/24)
+* OptBool \- Stores a boolean options, True or False.
+* OptEnum \- This stores a value from a predefined list of accepted values.
+* OptInt \- Stores a integer value, this can either be a hex or decimal value.
+* OptPath \- Stores a local file path
+* OptPort \- Stores a port (socket) number, this is between 0 and 65535
+* OptRaw \- Function is the same as OptString
+* OptRegexp \- Stores a regular expression
+* OptString \- Stores a string, if it begins with **file://** it will read from that file.
+
+
+
+
+
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
 1. [Make citation - Metasploit What is a module](https://docs.rapid7.com/metasploit/modules/#:~:text=A%20module%20is%20a%20piece,%2C%20or%20post%2Dexploitation%20module.)
