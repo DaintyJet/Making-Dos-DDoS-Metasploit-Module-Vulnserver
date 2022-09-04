@@ -77,9 +77,9 @@ Above we are defining a new MetasploitModule which inherits from the **Msf::Expl
 
 Above we have defined a new class, but we must define components of the class, and some function that will use that class to make it useful. If you looked at the reference page for **Msf::Exploit**  linked earlier you may have noticed there are many characteristic of the module that we can define. But we will be focusing on the few necessary ones to describe the module and make it work.
 #### Ranking
-The first thing that we can include in the module is a <a href="https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html">threat ranking</a>, there are several different rankings defined and they tell us ***how severe the exploit is***
+The first thing that we can include in the module is a <a href="https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html">threat ranking</a>, there are several different rankings defined and they tell us ***how severe the exploit is***.
 
-There are many different rankings that you can chose from, they are listed below from lowest to highest.
+There are many different rankings that you can chose from, and they are listed below from lowest to highest.
 * **ManualRanking** \- Exploit is unstable or difficult to exploit and is basically a DoS. It has a success rate of 15% or lower. This rating may be used when a module has no use unless it is specifically configured by the user.
 * **LowRanking** \- Exploit is nearly impossible to exploit on common platforms with under a 50% success rate.
 * **AverageRanking** \- Exploit is generally unreliable or difficult to exploit but it has a success rate of 50% or more for common platforms. 
