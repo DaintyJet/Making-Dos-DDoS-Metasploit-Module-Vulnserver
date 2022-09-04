@@ -471,11 +471,11 @@ def run
     end
 end
 ```
-## End Result 
+## Final Code
 These are the end results of making the module body and functions for both the DoS and DDoS modules. They will be slightly different from the code in the repository as they will have the simplified run and helper function.
 
 
-### DoS End
+### DoS Code
 ```ruby
 # DoS
 class MetasploitModule < Msf::Auxiliary	
@@ -514,7 +514,7 @@ class MetasploitModule < Msf::Auxiliary
   end
 end
 ```
-### DDoS End
+### DDoS Code
 ```ruby
 # DDoS
 require 'socket'
