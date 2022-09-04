@@ -21,9 +21,9 @@ This is a walkthrough that can be used to describe the process of making a gener
     * [Msf::Auxillary](#msfauxillary)
     * [DoS Module](#dos-module)
     * [DDoS Module](#ddos-module)
-* [End Result](#end-result)
-    * [DoS End](#dos-end)
-    * [DDoS End](#ddos-end)
+* [Final Code](#final-code)
+    * [DoS Code](#dos-code)
+    * [DDoS Code](#ddos-code)
 * [References](#references)
 
 
