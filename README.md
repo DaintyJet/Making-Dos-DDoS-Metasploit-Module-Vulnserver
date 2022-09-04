@@ -104,8 +104,7 @@ Mixins are an important concept in Ruby and the Metasploit Framework. They are m
 When creating the DoS, DDoS and Exploit modules all will use the **Msf::Exploit::Remote::Tcp** Mixin. If the module is a DoS or DDoS module it will also include the **Msf::Auxillary::Dos** module. 
 
 The [**Msf::Exploit::Remote::Tcp**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp) Mixin will provide us with necessary TCP/IP functions to interact with  remote servers, and **Datastore** objects to control those functions. 
-
-*Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions.* ***REmove Space between this and above later***
+* Note that it is possible to implement this using standard Ruby TCP/IP libraries and functions.
 
 The [**Msf::Auxillary::Dos**](https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos) provides DOS functionalities to the module, along with identifying the Auxiliary module as a DoS module.
 
