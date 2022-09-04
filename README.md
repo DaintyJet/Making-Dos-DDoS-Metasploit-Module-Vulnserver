@@ -37,27 +37,27 @@ The first thing that you should know is what the different kinds of modules are,
 
 ### Different types of Modules 
 There are <a href="https://docs.rapid7.com/metasploit/msf-overview/#:~:text=executes%20a%20sequence%20of%20commands%20to%20target%20a%20specific%20vulnerability%20found%20in%20a%20system%20or%20application.%20An%20exploit%20module%20takes%20advantage%20of%20a%20vulnerability%20to%20provide%20access%20to%20the%20target%20system">different types of modules</a>. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DoS/DDOS and Exploit module for the vChat server. 
-* In the cases of our Exploit module we are going to want to include a payload to gain further access to the system, so it should be an Msf::Exploit class of module. 
-* Then in the case of our DOS/DDoS module we would want it to be a Msf:Auxillary class of module as no payload is going to be used or needed.
+* In the cases of <a href="https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule">our Exploit module</a> we are going to want to include a payload to gain further access to the system so that it should be an Msf::Exploit class of module. 
+* Then in the case of our DOS/DDoS module we would want it to be a Msf:Auxillary class of module as no payload is going to be used or needed. This is the focus of this post.
 
-1. **Exploit Modules**
-    * They Executes a sequence of commands to target a specific vulnerability found in a system or application. 
-    * They take advantage of a vulnerability to provide access to the target system. 
-    * Examples include buffer overflows, code injections and web application exploits 
-2. **Auxiliary Modules** 
-    * They do not execute a payload
-    * They can be used to perform arbitrary actions that may not be directly related to exploitation
-    * Examples include scanners, fuzzers, and denial of service attacks.
-3. **Post-Exploitation Modules** 
-    *  Enables you to gather more information or to gain further access to an exploited target system
-    * Examples include hash dumps and application and service enumerators.
-4. **Payload Modules**
-    * shell code that runs after an exploit successfully compromises a system.
-    * enables you to define how you want to connect to the shell and what you want to do to the target system after you take control of it.
-    * A payload can open a Meterpreter or command shell.
-        * This command shell is an advanced payload that allows you to write DLL files to dynamically create new features as you need them.
-5. **NOP-generator Module**
-    * A NOP generator produces a series of random bytes that you can use to bypass standard IDS and IPS NOP sled signatures. Use NOP generators to pad buffers
+1. Exploit Modules
+   * They Executes a sequence of commands to target a specific vulnerability found in a system or application
+   * They take advantage of a vulnerability to provide access to the target system
+   * Examples include buffer overflows, code injections and web application exploits
+2. Auxiliary Modules
+   * They do not execute a payload
+   * They can be used to perform arbitrary actions that may not be directly related to gaining access to a system
+   * Examples include scanners, fuzzers, and denial of service attacks
+3. Post-Exploitation Modules
+   * They enable you to gather more information or to gain further access to an exploited target system
+   * Examples include hash dumps and application and service enumerators
+4. Payload Modules
+   * They can be shell code that runs after an exploit successfully compromises a system
+   * They enable you to define how you want to connect to the shell and what you want to do to the target system after you take control of it
+   * A payload can open a Meterpreter or command shell
+     * This command shell is an advanced payload that allows you to write DLL files to dynamically create new features as you need them.
+5. NOP-generator Module
+   * A NOP generator produces a series of random bytes that you can use to bypass standard IDS and IPS NOP sled signatures. Use NOP generators to pad buffers
 
 ### Start of a Module
 As mentioned earlier a module is written in Ruby. You do not need to be entirely familiar with this language to make a working module!
