@@ -38,7 +38,7 @@ The first thing that you should know is what the different kinds of modules are,
 
 ### Different types of Modules 
 There are different types of modules. They and their characteristics are listed below. The two main modules we are concerned with are the Auxiliary and Exploit modules. This is because in our case we want to make both a DoS/DDOS and Exploit module for the vChat server. 
-* In the cases of our Exploit we are going to want to include a payload to gain further access to the system, so it should be an Msf::Exploit class of module. 
+* In the cases of our Exploit module we are going to want to include a payload to gain further access to the system, so it should be an Msf::Exploit class of module. 
 * Then in the case of our DOS/DDoS module we would want it to be a Msf:Auxillary class of module as no payload is going to be used or needed.
 
 1. **Exploit Modules**
