@@ -4,7 +4,6 @@ This is a walkthrough that can be used to describe the process of making a gener
 * [Introduction](#introduction)
 * [Writing Modules](#writing-modules)
     * [Different types of Modules](#different-types-of-modules)
-    * [Components of a Module](#components-of-a-module)
     * [Start of a Module](#start-of-a-module)
     * [Ranking](#ranking)
     * [Mixins](#mixins)
