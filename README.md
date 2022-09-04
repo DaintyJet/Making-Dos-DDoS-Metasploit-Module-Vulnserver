@@ -272,8 +272,8 @@ register_options(
 ```
 If you want to create a new Datastore object the process is a bit more complected as you need to use the *constructor* of the datastore type.
 
-#### Creating new Datastore objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
-When doing this you will have something like **Opt\<Type\>.new(...)** in the *register_options* function.
+#### Creating new Datastore objects [ref]
+When <a href="https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore">creating new datastore objects</a> you will have something like **Opt\<Type\>.new(...)** in the *register_options* function.
 
 The constructor will have the following structure and arguments.
 ```ruby
