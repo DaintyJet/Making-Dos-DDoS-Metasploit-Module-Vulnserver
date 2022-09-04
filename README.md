@@ -51,12 +51,12 @@ There are <a href="https://docs.rapid7.com/metasploit/msf-overview/#:~:text=exec
 3. **Post-Exploitation Modules** 
     *  Enables you to gather more information or to gain further access to an exploited target system
     * Examples include hash dumps and application and service enumerators.
-4. **Payload Modules** \-***CAN BE REMOVED - all mentions of it would later need to be removed***
+4. **Payload Modules**
     * shell code that runs after an exploit successfully compromises a system.
     * enables you to define how you want to connect to the shell and what you want to do to the target system after you take control of it.
     * A payload can open a Meterpreter or command shell.
         * This command shell is an advanced payload that allows you to write DLL files to dynamically create new features as you need them.
-5. **NOP-generator Module** \-***CAN BE REMOVED***
+5. **NOP-generator Module**
     * A NOP generator produces a series of random bytes that you can use to bypass standard IDS and IPS NOP sled signatures. Use NOP generators to pad buffers
 
 ### Start of a Module
