@@ -29,7 +29,7 @@ This is a walkthrough that can be used to describe the process of making a gener
 
 
 ## Introduction 
-<a href="https://docs.rapid7.com/metasploit/modules#:~:text=A%20module%20is%20a%20piece%20of%20software%20that%20the%20Metasploit%20Framework%20uses%20to%20perform%20a%20task%2C%20such%20as%20exploiting%20or%20scanning%20a%20target">Metasploit modules</a> are software written in Ruby that the Metasploit Framework uses to preform a specific task. You do not need to be entirely familiar with this language to make a working module since Ruby is similar to other pogramming lannguages such as Python and you can often guess what a Ruby code does.
+<a href="https://docs.rapid7.com/metasploit/modules#:~:text=A%20module%20is%20a%20piece%20of%20software%20that%20the%20Metasploit%20Framework%20uses%20to%20perform%20a%20task%2C%20such%20as%20exploiting%20or%20scanning%20a%20target">Metasploit modules</a> are software written in Ruby that the Metasploit Framework uses to preform a specific task. You do not need to be entirely familiar with this language to make a working module since Ruby is similar to other programming languages such as Python  you can often guess what a Ruby code does.
 
 The first thing that you should know is what the different kinds of modules are, as each one gives them different sets of functionality. What type of module you define it as also gives us an idea of what it should be used for.
 
