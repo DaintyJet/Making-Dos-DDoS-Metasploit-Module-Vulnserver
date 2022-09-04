@@ -272,7 +272,7 @@ register_options(
 ```
 If you want to create a new Datastore object the process is a bit more complected as you need to use the *constructor* of the datastore type.
 
-#### Creating new Datastore objects [ref]
+#### Creating new Datastore objects
 When <a href="https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore">creating new datastore objects</a> you will have something like **Opt\<Type\>.new(...)** in the *register_options* function.
 
 The constructor will have the following structure and arguments.
@@ -299,17 +299,17 @@ register_options(
 ])
 ```
 
-#### deregister_options(...) [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore)
+#### deregister_options(...)
 
-This is a simple way of removing unused datastore options that are provided by a mixin module. It is as simple as doing the following.
+This is a simple way of <a href="https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=Core%20option-,types,-All%20core%20datastore">removing unused datastore options</a> that are provided by a mixin module. It is as simple as doing the following.
 ```ruby
 deregister_options('OPT1', 'OPT2', ...)
 ```
 This would likely be located below the *register_options* function.
 
-#### Accessing Datastore Objects [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=\)\)%0Aend-,Modifying,-datastore%20options%20at)
+#### Accessing Datastore Objects
 
-This will come up a little later, but the way you access the datastore object is quite simple. All you have to do is **datastore['\<NameOfObject\>']** where you replace **\<NameOfObject\>** with the name of the datastore object you would like to access. 
+This will come up a little later, but the way you <a href="https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4#:~:text=\)\)%0Aend-,Modifying,-datastore%20options%20at">access the datastore object</a> is quite simple. All you have to do is **datastore['\<NameOfObject\>']** where you replace **\<NameOfObject\>** with the name of the datastore object you would like to access. 
 
 So an example is:
 ```ruby 
