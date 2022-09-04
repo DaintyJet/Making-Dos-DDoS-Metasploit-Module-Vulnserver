@@ -9,7 +9,7 @@ This is a walkthrough that can be used to describe the process of making a gener
     * [Ranking](#ranking)
     * [Mixins](#mixins)
     * [Initialize](#initialize)
-    * [Super(update_info)](#superupdateinfo)
+    * [Super(update_info)](#superupdate_info)
     * [Datastore](#datastore)
     * [register_options](#register_options)
     * [deregister_options](#deregister_options)
