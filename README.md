@@ -230,8 +230,8 @@ class MetasploitModule < Msf::Exploit::Remote
 ```
 *Notice that each attribute and sub attribute element is separated by a comma. **remember** these are arguments to a function or members or a list!* 
 
-#### Datastore [ref](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4)
-This is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
+#### Datastore
+<a href="https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4">Datastore</a> is a structure used by the Metasploit framework to configure options in the Metasploit Module. As previously mentioned, some of these Datastore objects are from Mixins but we can defined new ones as part of the new module. 
 
 A Datastore object can have the following types. *This is an abridged description, see [this - old Link depicted](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-datastore-options/1ec0c3c29961af66ff2dc3421e7e749a06a07ee4) for more details.
 * **OptAddress** \- IPv4 address.
