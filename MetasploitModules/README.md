@@ -16,7 +16,8 @@ You can download the knock.rb file and follow similar instructions to above
 1. Save the module at /usr/share/metasploit-framework/modules/exploit/vchat
      * This is the path for a Linux/Kali-Linux host OS 
      * You will need to make the /\*/vchat directory
-1. Launch the Metasploit Famework console and run the following command:
+1. Launch the Metasploit Famework 
+1. Open the Metasploit Framework console and run the following command:
 ``` 
 reload_all
 ```
