@@ -1,4 +1,5 @@
 # Information on how to Install
+## Installing the Auxiliary Modules
 1. Download the two modules.
 1. Save the modules into /usr/share/metasploit-framework/modules/auxiliary/dos/vchat
      * This is the path for a Linux/Kali-Linux host OS.
@@ -8,7 +9,7 @@
 ``` 
 reload_all
 ```
-# Installing the Exploit Module
+## Installing the Exploit Module
 Follow the instrictions listed at [this](https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule) page.
 
 You can download the knock.rb file and follow similar instructions to above.
