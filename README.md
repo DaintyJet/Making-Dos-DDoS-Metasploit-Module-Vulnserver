@@ -74,7 +74,8 @@ Above we are defining a new MetasploitModule which inherits from the **Msf::Expl
 
 ### New Class Definition
 
-Above we have defined a new class, but we must define components of the class, and some function that will use that class to make it useful. If you looked at the reference page for **Msf::Exploit**  linked earlier you may have noticed there are many characteristic of the module that we can define. But we will be focusing on the few necessary ones to describe the module and make it work.
+Above we have defined a new class, but we must define components of the class, and some function that will use that class to make it useful. If you looked at the reference page for **Msf::Exploit**  linked earlier you may have noticed there are many characteristics of the module that we can define. But we will be focusing on the few necessary ones to describe the module and make it work.
+
 #### Ranking
 The first thing that we can include in the module is a <a href="https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html">threat ranking</a>, there are several different rankings defined and they tell us ***how severe the exploit is***.
 
@@ -82,15 +83,14 @@ There are many different rankings that you can chose from, and they are listed b
 * **ManualRanking** \- Exploit is unstable or difficult to exploit and is basically a DoS. It has a success rate of 15% or lower. This rating may be used when a module has no use unless it is specifically configured by the user.
 * **LowRanking** \- Exploit is nearly impossible to exploit on common platforms with under a 50% success rate.
 * **AverageRanking** \- Exploit is generally unreliable or difficult to exploit but it has a success rate of 50% or more for common platforms. 
-* **NormalRanking** \- Exploit is otherwise reliable but it depends on a specific versions that is not the "common case" for a type of software. It cannot or does not reliably autodetect the target.
-* **GoodRanking** \- Exploit has a default target and does not autodetect the target. It works on the "common case" of a type of software (i.e Windows 7/10/11, Windows server 2012/2016, ect.).
+* **NormalRanking** \- Exploit is otherwise reliable but it depends on a specific version that is not the "common case" for a type of software. It cannot or does not reliably autodetect the target.
+* **GoodRanking** \- Exploit has a default target and does not autodetect the target. It works on the "common case" of a type of software, such as Windows 7/10/11, and Windows server 2012/2016..
 * **GreatRanking** \- This has a default target and will either autodetect the appropriate target or use an application-specific return address after a version check.
 * **ExcellentRanking** \- This exploit will never crash the service.
 * [ref - new one will not load](https://github.com/rapid7/metasploit-framework/wiki/Exploit-Ranking/9af9b4277da4bb5d9facbbf0c812779a9b26fc8c)
 
 
-Since our module will be private, and for personal use the selected ranking does not matter all that much and we can, for simplicity select the NormalRanking.
-
+For simplicity we use select the NormalRanking for exploiting the vchat server. The exploits shall work with proper configuraitons of Windows.
 This will result in the following module
 ```ruby
 class MetasploitModule < Msf::Auxillary
@@ -116,7 +116,7 @@ class MetasploitModule < Msf::Auxillary
   include Msf::Auxiliary::Dos       # Only in DOS and DDOS
 ```
 #### Initialize
-This is where the majority of the Module is defined, of course this excludes the functions used to run it that is. This is the constructor and it sets the default values of the module.
+This is where the majority of the Module is defined, of course this excludes the functions used to run it. This is the constructor and it sets the default values of the module.
 
 You may notice this contains a **super** statement, that is a ruby function that will call the parent class's function of that name. 
 
@@ -156,7 +156,7 @@ In the case of the Exploit module we would additionally use **'Payload'**, **'Pl
 * **'DefaultTarget'** \- This defines the element of the **'Targets'** list to use by default 
 * **'DefaultOptions'** \- This defines the defualt settings of options in the Module.
 
-There are many other attributes that can be used, if you want to see an alternative walkthrough of this you can reference [this](https://www.offensive-security.com/metasploit-unleashed/creating-auxiliary-module/)
+There are many other attributes that can be used. If you want to see an alternative walkthrough of this you can reference [this](https://www.offensive-security.com/metasploit-unleashed/creating-auxiliary-module/)
 
 
 What we get from filling out that information in the **super(update_info(info, ...)** is the following.
@@ -317,7 +317,7 @@ print datastore['MyCustomObject']
 ...  
 ```
 
-It is not recommended that you change the values of datastore objects at runtime. That is you should not do the following: 
+It is not recommended that you change the values of datastore objects at runtime. That is, you should not do the following: 
 ```ruby
 datastore['RHOST'] = 127.0.0.1 
 ```
@@ -338,7 +338,7 @@ end
 This section will contain a bit of information on the definition of the new Module's class and why some of the things were done the way they were. This will also have the **COMPLETE** module definition of the DoS and DDoS modules as code blocks.
 
 ### DoS
-The DoS module definition is almost the same as the **Msf::Exploit** Knock module. This is because it makes one connection with the functions provided by the **Msf::Exploit::Remote::Tcp** Mixin. It uses this connection to send the malicious message, and the Mixin provides a few datastore objects to control those functions. Since we are only sending a message, and are not expecting a response as it will hopefully crash the server the only datastore objects we care about are *RHOST*  which is configured by the user and *RPORT*.  We assume the server is running on a know default port of 9999 so we will want to set the default value of *RPORT* to 9999.
+The DoS module definition is almost the same as the **Msf::Exploit** Knock module. This is because it makes one connection with the functions provided by the **Msf::Exploit::Remote::Tcp** Mixin. It uses this connection to send the malicious message, and the Mixin provides a few datastore objects to control those functions. Since we are only sending a message, and are not expecting a response as it will hopefully crash the server the only datastore objects we care about are *RHOST*  which is configured by the user and *RPORT*.  We assume the server is running on a known default port of 9999 so we will want to set the default value of *RPORT* to 9999.
 
 This results in the following Module:
 ```ruby
