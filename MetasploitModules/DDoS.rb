@@ -1,8 +1,8 @@
-require 'socket'
+require 'socket'                              # Include the socket library to gain TCP/IP functionality
 
 class MetasploitModule < Msf::Auxiliary       # We inherit from  Msf::Auxiliary as it will use functonality provided and will be consided a DoS module
     include Msf::Auxiliary::Dos               # Although this is a DDoS it is a form of a DOS Module as metasploit has no DDoS modules.
-    Rank = NormalRanking                      # We set the ranking to normal for simplicity
+    Rank = NormalRanking                      # We set the ranking to normal for simplicity. This is the potential success and impact to the target
 
 def initialize(info = {})
     super(update_info(info,                    # Calls parent class update_info function and updates values used by, and describing this module
@@ -16,7 +16,7 @@ def initialize(info = {})
         [
             [ 'URL', 'https://github.com/xinwenfu/Malware-Analysis/edit/main/MetasploitNewModule' ]
         ],                                     # References for the vulnerability or exploit
-        'Privileged'     => false,
+        'Privileged'     => false,             # Extra privlages will not be gained, and are not needed to execute this module
         'DisclosureDate' => 'Mar. 30, 2022'))  # When the vulnerability was disclosed in public
         register_options(
         [
