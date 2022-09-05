@@ -22,3 +22,5 @@ You can download the knock.rb file and follow similar instructions to above.
 ``` 
 reload_all
 ```
+
+*You can install all three modules first then use the reload_all command once.*
