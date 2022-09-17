@@ -570,8 +570,30 @@ class MetasploitModule < Msf::Auxiliary
 end
 ```
 ## References
-1. [Make citation - Metasploit different modules](https://docs.rapid7.com/metasploit/msf-overview/)
-1. [Make citation - Metasploit What is a module](https://docs.rapid7.com/metasploit/modules/#:~:text=A%20module%20is%20a%20piece,%2C%20or%20post%2Dexploitation%20module.)
-1. [More](https://docs.metasploit.com/api/Msf/Module/Privileged.html)
-1. Go through all hyperlinks and add here later.
-
+1. https://docs.rapid7.com/metasploit/msf-overview/ (general MSF stuff)
+   * https://docs.rapid7.com/metasploit/msf-overview/#Finding-Modules
+   * https://docs.rapid7.com/metasploit/modules/
+1. https://docs.metasploit.com/api/Msf.html # Docs on modules (ruby)
+   * https://docs.metasploit.com/api/Msf/Module/Privileged.html
+1. https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf
+   * https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit
+   * https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit/Remote/Tcp
+   * https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Auxiliary/Dos
+1. https://docs.metasploit.com/
+   * https://docs.metasploit.com/docs/using-metasploit/intermediate/exploit-ranking.html
+   * https://docs.metasploit.com/docs/development/developing-modules/guides/how-to-get-started-with-writing-an-auxiliary-module.html
+   * https://docs.metasploit.com/docs/development/developing-modules/guides/get-started-writing-an-exploit.html
+   * https://docs.metasploit.com/docs/development/developing-modules/module-metadata/how-to-use-datastore-options.html
+   * https://docs.metasploit.com/docs/development/developing-modules/libraries/how-to-use-the-msf-exploit-remote-tcp-mixin.html
+1. https://github.com/rapid7/metasploit-framework/tree/master/modules
+   * https://github.com/rapid7/metasploit-framework/tree/master/modules/auxiliary
+   * https://github.com/rapid7/metasploit-framework/tree/master/modules/exploits
+   * https://github.com/lattera/metasploit/blob/master/documentation/samples/modules/exploits/sample.rb
+   * *refrenced various exitsing modules for structure*
+1. https://www.offensive-security.com/metasploit-unleashed/exploit-development/
+   * https://www.offensive-security.com/metasploit-unleashed/creating-auxiliary-module/
+   * https://www.offensive-security.com/metasploit-unleashed/building-module/
+   * https://www.offensive-security.com/metasploit-unleashed/exploit-mixins/
+1. https://docs.rapid7.com/metasploit/msf-overview/
+1. https://ruby-doc.com/docs/ProgrammingRuby/html/tut_modules.html
+1. https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule
