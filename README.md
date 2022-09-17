@@ -570,10 +570,10 @@ class MetasploitModule < Msf::Auxiliary
 end
 ```
 ## References
-1. https://docs.rapid7.com/metasploit/msf-overview/ (general MSF stuff)
+1. https://docs.rapid7.com/metasploit/msf-overview/ 
    * https://docs.rapid7.com/metasploit/msf-overview/#Finding-Modules
    * https://docs.rapid7.com/metasploit/modules/
-1. https://docs.metasploit.com/api/Msf.html # Docs on modules (ruby)
+1. https://docs.metasploit.com/api/Msf.html
    * https://docs.metasploit.com/api/Msf/Module/Privileged.html
 1. https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf
    * https://www.rubydoc.info/github/rapid7/metasploit-framework/Msf/Exploit
