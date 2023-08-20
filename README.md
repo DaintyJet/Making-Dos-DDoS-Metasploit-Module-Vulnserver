@@ -286,7 +286,7 @@ When <a href="https://docs.metasploit.com/docs/development/developing-modules/mo
 
 The constructor will have the following structure and arguments.
 ```ruby
-Opt\<Type\>.new(option_name, [boolean, description, value, *enums*], aliases: *aliases*, conditions: *conditions*)
+Opt<Type>.new(option_name, [boolean, description, value, *enums*], aliases: *aliases*, conditions: *conditions*)
 ```
 * **option_name** \- This is the name of the Datastore option, you will use it to access the value it stores
 * **boolean** \- This defines whether this is a required (True) or optional (false) option
