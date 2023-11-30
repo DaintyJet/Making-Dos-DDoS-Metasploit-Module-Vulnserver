@@ -27,6 +27,6 @@ reload_all
 
 > You can install all three modules first then use the reload_all command once.
 ## Optional
-The Auxillary DoS modules will not show up in Arimtage's *find attacks* option. If you would like, you can install a Exploit version of the Auxilliary modules too, these would also be saved at `/usr/share/metasploit-framework/modules/exploit/windows/vchat`
+The Auxillary DoS modules will not show up in Arimtage's *find attacks* option. If you would like, you can install a Exploit version of the Auxilliary modules too, these would also be saved at `/usr/share/metasploit-framework/modules/exploit/windows/vchat`. The main differnce is that the DoS and DDoS Exploit modules have a payload associated with them, this means by their nature of crashing the server and not deploying the payload they will from the view of the Metasploit Framework fail. 
 
 These modules are located in this folder under the [./Exploit/](./Exploit/) subfolder 
